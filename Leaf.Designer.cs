@@ -33,6 +33,7 @@
             // 
             // panelNature
             // 
+            this.panelNature.BackColor = System.Drawing.Color.Transparent;
             this.panelNature.Location = new System.Drawing.Point(0, 0);
             this.panelNature.Name = "panelNature";
             this.panelNature.Size = new System.Drawing.Size(272, 246);
@@ -43,9 +44,14 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.Transparent;
             this.Controls.Add(this.panelNature);
             this.Name = "Leaf";
             this.Size = new System.Drawing.Size(272, 246);
+            this.Paint += new System.Windows.Forms.PaintEventHandler(this.Leaf_Paint);
+            this.Layout += new System.Windows.Forms.LayoutEventHandler(this.Leaf_Layout);
+            this.Move += new System.EventHandler(this.Leaf_Move);
+            this.Resize += new System.EventHandler(this.Leaf_Resize);
             this.ResumeLayout(false);
 
         }

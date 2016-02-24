@@ -240,7 +240,14 @@ namespace AlgoNature.Components
             //{
             //    res[i] = points[(int)(points.Length * Parts[i]) - 1].ToPoint();
             //}
-            return res.ToArray().Moved(-posunX,-posunY);
+            if (res.Count == 0)
+            {
+                return CurvPoints;
+            }
+            else
+            {
+                return res.ToArray().Moved(-posunX, -posunY);
+            }
         }
 
         public static PointF IntersectWithLine(this Line line1, Line line2)

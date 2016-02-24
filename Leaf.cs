@@ -19,13 +19,14 @@ namespace AlgoNature.Components
     public partial class Leaf : UserControl, IGrowableGraphicChild, IToRedrawEventHandlingList //IObservable<bool>
     {
         #region Constructors
-        public static Leaf FromTemplate(Leaf Template)
-            => new Leaf(Template.CenterPoint, Template.BranchLength, Template.DivideAngle, T)
+        //public static Leaf FromTemplate(Leaf Template)
+        //    => new Leaf(Template.CenterPoint, Template.BranchLength, Template.DivideAngle, T)
 
 
         public Leaf()
         {
             InitializeComponent();
+            secondPaint = false;
             _isBilaterallySymetric = true;
             _leftDivideAngle = _rightDivideAngle = _divideAngle = 10;
             _curveBehindCenterPoint = true;
@@ -51,12 +52,13 @@ namespace AlgoNature.Components
             _centralVeinPixelThickness = 2;
             //_panelBitmap = new Bitmap(this.Width, this.Height);
             _userEditedCenterPoint = false;
-            _hasBranch = false;
-            _branchLength = 0;
-            _centerPointBelongsToBranch = false;
+            _hasBranch = true;
+            _branchLength = 5;
+            _centerPointBelongsToBranch = true;
             _branchPen = new Pen(_borderColor.Color, _centralVeinPixelThickness * 2);
             _drawToGraphics = true;
             Redraw += delegRdrw;
+            itselfRefresh = true;
             ////IGrowable
             //_zeroStateOneLengthPixels = 0.5F;
             //_onePartGrowOneLengthPixels = 0.5F;
@@ -70,11 +72,12 @@ namespace AlgoNature.Components
             //LifeTimer.Interval = 500;
             //LifeTimer.Tick += new EventHandler(LifeTimerTickHandler);
             //LifeTimer.Start();
-            this.Refresh();
+            //this.Refresh();
         }
         public Leaf(bool Growing)
         {
             InitializeComponent();
+            secondPaint = false;
             _isBilaterallySymetric = true;
             _leftDivideAngle = _rightDivideAngle = _divideAngle = 10;
             _curveBehindCenterPoint = true;
@@ -123,11 +126,13 @@ namespace AlgoNature.Components
             }
             _drawToGraphics = true;
             Redraw += delegRdrw;
-            this.Refresh();
+            itselfRefresh = true;
+            //this.Refresh();
         }
         public Leaf(Point AbsoluteCenterPoint)
         {
             InitializeComponent();
+            secondPaint = false;
             _isBilaterallySymetric = true;
             _leftDivideAngle = _rightDivideAngle = _divideAngle = 10;
             _curveBehindCenterPoint = true;
@@ -175,11 +180,13 @@ namespace AlgoNature.Components
             //LifeTimer.Start();
             _drawToGraphics = true;
             Redraw += delegRdrw;
-            this.Refresh();
+            itselfRefresh = true;
+            //this.Refresh();
         }
         public Leaf(Point AbsoluteCenterPoint, bool Growing)
         {
             InitializeComponent();
+            secondPaint = false;
             _isBilaterallySymetric = true;
             _leftDivideAngle = _rightDivideAngle = _divideAngle = 10;
             _curveBehindCenterPoint = true;
@@ -230,11 +237,13 @@ namespace AlgoNature.Components
             }
             _drawToGraphics = true;
             Redraw += delegRdrw;
-            this.Refresh();
+            itselfRefresh = true;
+            //this.Refresh();
         }
         public Leaf(Point AbsoluteCenterPointLocation, int DivideAngle, int StartPart, int OnePartRelativePosition, float OneLengthPixels)
         {
             InitializeComponent();
+            secondPaint = false;
             _isBilaterallySymetric = true;
             _leftDivideAngle = _rightDivideAngle = _divideAngle = DivideAngle;
             _curveBehindCenterPoint = true;
@@ -282,11 +291,13 @@ namespace AlgoNature.Components
             //LifeTimer.Start();
             _drawToGraphics = true;
             Redraw += delegRdrw;
-            this.Refresh();
+            itselfRefresh = true;
+            //this.Refresh();
         }
         public Leaf(Point AbsoluteCenterPointLocation, int DivideAngle, int StartPart, int OnePartRelativePosition, float OneLengthPixels, bool Growing)
         {
             InitializeComponent();
+            secondPaint = false;
             _isBilaterallySymetric = true;
             _leftDivideAngle = _rightDivideAngle = _divideAngle = DivideAngle;
             _curveBehindCenterPoint = true;
@@ -337,13 +348,15 @@ namespace AlgoNature.Components
             }
             _drawToGraphics = true;
             Redraw += delegRdrw;
-            this.Refresh();
+            itselfRefresh = true;
+            //this.Refresh();
         }
         public Leaf(Point AbsoluteCenterPointLocation, int DivideAngle, int StartPart, int OnePartRelativePosition, float OneLengthPixels, 
             float zeroStateOneLengthPixels, float onePartGrowOneLengthPixels, TimeSpan timeToGrowOneStepAfter,
             TimeSpan timeToAverageDieAfter, double deathTimeSpanFromAveragePart)
         {
             InitializeComponent();
+            secondPaint = false;
             _isBilaterallySymetric = true;
             _leftDivideAngle = _rightDivideAngle = _divideAngle = DivideAngle;
             _curveBehindCenterPoint = true;
@@ -391,13 +404,15 @@ namespace AlgoNature.Components
             LifeTimer.Start();
             _drawToGraphics = true;
             Redraw += delegRdrw;
-            this.Refresh();
+            itselfRefresh = true;
+            //this.Refresh();
         }
         public Leaf(Point PointFromWhereToGrowBranch, float BranchLngth, int DivideAngle, int StartPart, int OnePartRelativePosition, float OneLengthPixels,
             float zeroStateOneLengthPixels, float onePartGrowOneLengthPixels, TimeSpan timeToGrowOneStepAfter,
             TimeSpan timeToAverageDieAfter, double deathTimeSpanFromAveragePart)
         {
             InitializeComponent();
+            secondPaint = false;
             _isBilaterallySymetric = true;
             _leftDivideAngle = _rightDivideAngle = _divideAngle = DivideAngle;
             _curveBehindCenterPoint = true;
@@ -445,13 +460,15 @@ namespace AlgoNature.Components
             LifeTimer.Start();
             _drawToGraphics = true;
             Redraw += delegRdrw;
-            this.Refresh();
+            itselfRefresh = true;
+            //this.Refresh();
         }
         public Leaf(Point PointFromWhereToGrowBranch, float BranchLngth, int DivideAngle, int StartPart, int OnePartRelativePosition, float OneLengthPixels,
             float zeroStateOneLengthPixels, float onePartGrowOneLengthPixels, TimeSpan timeToGrowOneStepAfter,
             TimeSpan timeToAverageDieAfter, double deathTimeSpanFromAveragePart, float RotationRad)
         {
             InitializeComponent();
+            secondPaint = false;
             _isBilaterallySymetric = true;
             _leftDivideAngle = _rightDivideAngle = _divideAngle = DivideAngle;
             _curveBehindCenterPoint = true;
@@ -500,7 +517,8 @@ namespace AlgoNature.Components
             LifeTimer.Start();
             _drawToGraphics = true;
             Redraw += delegRdrw;
-            this.Refresh();
+            itselfRefresh = true;
+            //this.Refresh();
         }
 
         public Leaf(Point PointFromWhereToGrowBranch, float BranchLngth, int DivideAngle, int StartPart, int OnePartRelativePosition, float OneLengthPixels,
@@ -508,6 +526,7 @@ namespace AlgoNature.Components
             TimeSpan timeToAverageDieAfter, double deathTimeSpanFromAveragePart, float RotationRad, bool DrawToGraphics)
         {
             InitializeComponent();
+            secondPaint = false;
             _isBilaterallySymetric = true;
             _leftDivideAngle = _rightDivideAngle = _divideAngle = DivideAngle;
             _curveBehindCenterPoint = true;
@@ -556,7 +575,8 @@ namespace AlgoNature.Components
             LifeTimer.Start();
             _drawToGraphics = DrawToGraphics;
             Redraw += delegRdrw;
-            this.Refresh();
+            itselfRefresh = true;
+            //this.Refresh();
         }
         #endregion
 
@@ -586,7 +606,7 @@ namespace AlgoNature.Components
             {
                 _centerPoint = value;
                 _userEditedCenterPoint = true;
-                panelNature.Refresh();
+                doRefresh();
             }
         }
         private bool _userEditedCenterPoint;
@@ -598,7 +618,7 @@ namespace AlgoNature.Components
             set
             {
                 _oneLengthPixels = value;
-                panelNature.Refresh();
+                doRefresh();
             }
         }
 
@@ -611,7 +631,7 @@ namespace AlgoNature.Components
                 if (value < 0) _onePartPossition = 0;
                 else if (value > _divideAngle) _onePartPossition = _divideAngle;
                 else _onePartPossition = value;
-                panelNature.Refresh();
+                doRefresh();
             }
         }
         private int _beginingAnglePhase;
@@ -621,7 +641,7 @@ namespace AlgoNature.Components
             set
             {
                 _beginingAnglePhase = value;
-                panelNature.Refresh();
+                doRefresh();
             }
         }
 
@@ -632,7 +652,7 @@ namespace AlgoNature.Components
             set
             {
                 _veins = value;
-                panelNature.Refresh();
+                doRefresh();
             }
         }
         //private bool _veinsEvenFractalisation;
@@ -652,7 +672,7 @@ namespace AlgoNature.Components
             set
             {
                 _veinsFractalisation = value;
-                panelNature.Refresh();
+                doRefresh();
             }
         }
         private float _veinsBorderReachPart;
@@ -662,7 +682,7 @@ namespace AlgoNature.Components
             set
             {
                 _veinsBorderReachPart = value;
-                panelNature.Refresh();
+                doRefresh();
             }
         }
         private float _centralVeinPixelThickness;
@@ -672,7 +692,7 @@ namespace AlgoNature.Components
             set
             {
                 _centralVeinPixelThickness = value;
-                panelNature.Refresh();
+                doRefresh();
             }
         }
 
@@ -683,7 +703,7 @@ namespace AlgoNature.Components
             set
             {
                 _fill = value;
-                panelNature.Refresh();
+                doRefresh();
             }
         }
 
@@ -694,7 +714,7 @@ namespace AlgoNature.Components
             set
             {
                 _borderColor = value;
-                panelNature.Refresh();
+                doRefresh();
             }
         }
         private Brush _fillBrush;
@@ -704,7 +724,7 @@ namespace AlgoNature.Components
             set
             {
                 _fillBrush = value;
-                panelNature.Refresh();
+                doRefresh();
             }
         }
         private Color _veinsColor;
@@ -714,7 +734,7 @@ namespace AlgoNature.Components
             set
             {
                 _veinsColor = value;
-                panelNature.Refresh();
+                doRefresh();
             }
         }
 
@@ -725,7 +745,7 @@ namespace AlgoNature.Components
             set
             {
                 _leftCurveTension = value;
-                panelNature.Refresh();
+                doRefresh();
             }
         }
         private float _rightCurveTension;
@@ -735,7 +755,7 @@ namespace AlgoNature.Components
             set
             {
                 _rightCurveTension = value;
-                panelNature.Refresh();
+                doRefresh();
             }
         }
 
@@ -747,7 +767,7 @@ namespace AlgoNature.Components
             set
             {
                 _curveBehindCenterPoint = value;
-                panelNature.Refresh();
+                doRefresh();
             }
         }
 
@@ -758,7 +778,7 @@ namespace AlgoNature.Components
             set
             {
                 _smoothTop = value;
-                panelNature.Refresh();
+                doRefresh();
             }
         }
 
@@ -769,7 +789,7 @@ namespace AlgoNature.Components
             set
             {
                 _invertedCurving = value;
-                panelNature.Refresh();
+                doRefresh();
             }
         }
 
@@ -780,7 +800,7 @@ namespace AlgoNature.Components
             set
             {
                 _invertedCurvingCenter = value;
-                panelNature.Refresh();
+                doRefresh();
             }
         }
 
@@ -791,7 +811,7 @@ namespace AlgoNature.Components
             set
             {
                 _invertedCurvingSpan = value;
-                panelNature.Refresh();
+                doRefresh();
             }
         }
 
@@ -809,7 +829,7 @@ namespace AlgoNature.Components
                 //_centerPoint.X = (int)rotated.X + (panelLeaf.Width / 2);
                 //_centerPoint.Y = (int)rotated.Y + (panelLeaf.Height / 2); 
                 CenterPoint = new Point((int)rotated.X + (panelNature.Width / 2), (int)rotated.Y + (panelNature.Height / 2));
-                panelNature.Refresh();
+                doRefresh();
             }
         }
 
@@ -821,7 +841,7 @@ namespace AlgoNature.Components
             {
                 if (value == true) _leftDivideAngle = _rightDivideAngle = _divideAngle;
                 _isBilaterallySymetric = value;
-                panelNature.Refresh();
+                doRefresh();
             }
         }
 
@@ -833,7 +853,7 @@ namespace AlgoNature.Components
             {
                 if (_isBilaterallySymetric) _leftDivideAngle = _rightDivideAngle = value;
                 _divideAngle = value;
-                panelNature.Refresh();
+                doRefresh();
             }
         }
         private int _leftDivideAngle;
@@ -845,7 +865,7 @@ namespace AlgoNature.Components
                 _isBilaterallySymetric = false;
                 _leftDivideAngle = value;
                 if (_isBilaterallySymetric) _rightDivideAngle = value;
-                panelNature.Refresh();
+                doRefresh();
             }
         }
         private int _rightDivideAngle;
@@ -857,7 +877,7 @@ namespace AlgoNature.Components
                 _isBilaterallySymetric = false;
                 _rightDivideAngle = value;
                 if (_isBilaterallySymetric) _leftDivideAngle = value;
-                panelNature.Refresh();
+                doRefresh();
             }
         }
 
@@ -869,7 +889,7 @@ namespace AlgoNature.Components
             set
             {
                 if (value >= 0) _branchLength = value;
-                panelNature.Refresh();
+                doRefresh();
             }
         }
 
@@ -881,7 +901,7 @@ namespace AlgoNature.Components
             {
                 _hasBranch = value;
                 _centerPointBelongsToBranch = value;
-                panelNature.Refresh();
+                doRefresh();
             }
         }
 
@@ -894,11 +914,20 @@ namespace AlgoNature.Components
             set
             {
                 _branchPen = value;
-                panelNature.Refresh();
+                doRefresh();
             }
         }
         #endregion
 
+        protected override CreateParams CreateParams // Transparent
+        {
+            get
+            {
+                CreateParams parms = base.CreateParams;
+                parms.ExStyle |= 0x20;
+                return parms;
+            }
+        }
 
         private Point getCenterPoint() => _centerPointBelongsToBranch ? _centerPoint.Add(new Vector2(0, -_branchLength * _oneLengthPixels).Rotated(_rotationAngleRad)) : _centerPoint;
         
@@ -921,7 +950,8 @@ namespace AlgoNature.Components
             }
             if (xMin < 0)
             {
-                Point location = new Point(this.Location.X + xMin, this.Location.Y);
+                int loc = this.Location.X + xMin;
+                Point location = new Point(/*(loc < 0) ? 0 :*/ loc, this.Location.Y);
                 Point subst = this.Location.Substract(location);
                 this.Location = location;
                 this.Size = panelNature.Size = this.Size + new Size(subst);
@@ -931,6 +961,7 @@ namespace AlgoNature.Components
                 {
                     CurvePoints[j] = CurvePoints[j].Add(subst);
                 }
+                if (loc >= 0) _itselfResized = true;
             }
             if (xMax > this.Width)
             {
@@ -940,10 +971,12 @@ namespace AlgoNature.Components
                 this.Size = panelNature.Size = this.Size + add;
                 //_centerPoint = _centerPoint.Add(subst);
                 _userEditedCenterPoint = true;
+                _itselfResized = true;
             }
             if (yMin < 0)
             {
-                Point location = new Point(this.Location.X, this.Location.Y + yMin);
+                int loc = this.Location.Y + yMin;
+                Point location = new Point(this.Location.X, /*(loc < 0) ? 0 :*/ loc);
                 Point subst = this.Location.Substract(location);
                 this.Location = location;
                 this.Size = panelNature.Size = this.Size + new Size(subst);
@@ -953,6 +986,7 @@ namespace AlgoNature.Components
                 {
                     CurvePoints[j] = CurvePoints[j].Add(subst);
                 }
+                if (loc >= 0) _itselfResized = true;
             }
             if (yMax > this.Height)
             {
@@ -962,17 +996,58 @@ namespace AlgoNature.Components
                 this.Size = panelNature.Size = this.Size + add;
                 //_centerPoint = _centerPoint.Add(subst);
                 _userEditedCenterPoint = true;
+                _itselfResized = true;
             }
+            //_itself = new Bitmap(_itself, this.Size); 
             return Task.CompletedTask;
         }
 
-        private async void panelLeaf_Paint(object sender, PaintEventArgs e)
+        private void Leaf_Resize(object sender, EventArgs e)
         {
-            Itself?.Dispose();
-            Itself = new Bitmap(panelNature.Width, panelNature.Height);
+            secondPaint = false;
+        }
 
-            Graphics graphics = Graphics.FromImage(Itself);
+        private void Leaf_Layout(object sender, LayoutEventArgs e)
+        {
+            secondPaint = false;
+        }
 
+        private void Leaf_Move(object sender, EventArgs e)
+        {
+            secondPaint = false;
+        }
+
+        private void Leaf_Paint(object sender, PaintEventArgs e)
+        {
+            secondPaint = false;
+        }
+
+        private bool secondPaint;
+        private void doRefresh()
+        {
+            secondPaint = false;
+            panelNature.Refresh();
+        }
+
+        private void panelLeaf_Paint(object sender, PaintEventArgs e)
+        {
+            if (!secondPaint)
+            {
+                this.SuspendLayout();
+                itselfRefresh = true;
+                if (_drawToGraphics)
+                {
+                    Graphics g = e.Graphics;
+                    g.DrawImage(Itself, 0, 0);
+                }
+                secondPaint = true;
+                this.ResumeLayout();
+            }
+        }
+
+        private bool _itselfResized;
+        private async void doPaint(Graphics graphics) 
+        {
             //panelLeaf.DrawToBitmap(_panelBitmap, panelLeaf.ClientRectangle);
             if (!_userEditedCenterPoint)
             {
@@ -981,9 +1056,6 @@ namespace AlgoNature.Components
                 _centerPoint = new Point(xCenter, yCenter);
             }
 
-            //Point[] LPoints = LeafCurvePoints(true);
-
-            //float tension = 0.5F;
             if (!_smoothTop)
             {
                 Point[] LPoints = LeafCurvePoints(true);
@@ -991,22 +1063,6 @@ namespace AlgoNature.Components
 
                 await resizeToShowAll(LPoints, _leftCurveTension);
                 await resizeToShowAll(RPoints, _rightCurveTension);
-
-                if (_fill)
-                {
-                    GraphicsPath gp = new GraphicsPath();
-                    gp.AddCurve(LPoints, _leftCurveTension);
-                    gp.AddCurve(RPoints, _rightCurveTension);
-
-                    Region reg = new Region(gp);
-                    
-                    graphics.FillRegion(_fillBrush, reg);
-                    reg.Dispose();
-                    gp.Dispose();
-                }
-
-                graphics.DrawCurve(Pens.DarkGreen, LPoints, _leftCurveTension);
-                graphics.DrawCurve(Pens.DarkGreen, RPoints, _rightCurveTension);
             }
             else
             {
@@ -1014,210 +1070,247 @@ namespace AlgoNature.Components
                 float tension = (_leftCurveTension + _rightCurveTension) / 2;
 
                 await resizeToShowAll(curvePoints, tension);
+            }
 
-                if (_fill)
+            if (_itselfResized)
+            {
+                _itselfResized = false;
+                graphics.DrawImage(Itself, 0, 0);
+            }
+            else
+            {
+                //Point[] LPoints = LeafCurvePoints(true);
+
+                //float tension = 0.5F;
+                if (!_smoothTop)
                 {
-                    Point[] unified = LeftCurvePoints.Union(curvePoints);
-                    graphics.FillClosedCurve(Brushes.Green, unified, FillMode.Alternate, tension);
+                    Point[] LPoints = LeafCurvePoints(true);
+                    Point[] RPoints = LeafCurvePoints(false);
+                                        
+                    if (_fill)
+                    {
+                        GraphicsPath gp = new GraphicsPath();
+                        gp.AddCurve(LPoints, _leftCurveTension);
+                        gp.AddCurve(RPoints, _rightCurveTension);
+
+                        Region reg = new Region(gp);
+
+                        graphics.FillRegion(_fillBrush, reg);
+                        reg.Dispose();
+                        gp.Dispose();
+                    }
+
+                    graphics.DrawCurve(Pens.DarkGreen, LPoints, _leftCurveTension);
+                    graphics.DrawCurve(Pens.DarkGreen, RPoints, _rightCurveTension);
                 }
                 else
                 {
-                    graphics.DrawCurve(Pens.DarkGreen, curvePoints, tension);
+                    Point[] curvePoints = RightCurvePoints.ReversedPointsWithoutFirst();
+                    float tension = (_leftCurveTension + _rightCurveTension) / 2;
+
+                    await resizeToShowAll(curvePoints, tension);
+
+                    if (_fill)
+                    {
+                        Point[] unified = LeftCurvePoints.Union(curvePoints);
+                        graphics.FillClosedCurve(Brushes.Green, unified, FillMode.Alternate, tension);
+                    }
+                    else
+                    {
+                        graphics.DrawCurve(Pens.DarkGreen, curvePoints, tension);
+                    }
                 }
-            }
 
-            if (_hasBranch) graphics.DrawLine(_branchPen, _centerPoint, getCenterPoint());
+                if (_hasBranch) graphics.DrawLine(_branchPen, _centerPoint, getCenterPoint());
 
-            //Bitmap bmp = new Bitmap(panelLeaf.Width, panelLeaf.Height);
-            //using (var g = Graphics.FromImage(bmp))
-            //{
-            //    g.DrawClosedCurve(Pens.AliceBlue, RightCurvePoints);
-            //    g.FillRectangle(Brushes.AliceBlue, 0, 0, 200, 200);
-            //}
-            //graphics.DrawImage(bmp, 0, 0);
+                //Bitmap bmp = new Bitmap(panelLeaf.Width, panelLeaf.Height);
+                //using (var g = Graphics.FromImage(bmp))
+                //{
+                //    g.DrawClosedCurve(Pens.AliceBlue, RightCurvePoints);
+                //    g.FillRectangle(Brushes.AliceBlue, 0, 0, 200, 200);
+                //}
+                //graphics.DrawImage(bmp, 0, 0);
 
-            //Color col = bmp.GetPixel(RightCurvePoints[0].X, RightCurvePoints[0].Y);
-            //Color alicbl = Color.FromKnownColor(KnownColor.AliceBlue);
-            if (_veins)
-            {
-                Point[] centrVeinCurPts = CentralVeinCurvePoints;
-                graphics.DrawCurve(new Pen(_veinsColor, _centralVeinPixelThickness), centrVeinCurPts);
-                if (_veinsFractalisation > 0)
+                //Color col = bmp.GetPixel(RightCurvePoints[0].X, RightCurvePoints[0].Y);
+                //Color alicbl = Color.FromKnownColor(KnownColor.AliceBlue);
+                if (_veins)
                 {
-                    int LEVEL = 1;
-                    //List<Point> points = new List<Point>();
-                    //Bitmap curve = new Bitmap(panelLeaf.Width, panelLeaf.Height);
-                    //for (int x = 0; x < panelLeaf.Width; x++)
-                    //{
-                    //    for (int y = 0; )
-                    //}
-
-                    // OLD SYNTAX
-
-                    // Left side
-                    //Point[] LeftStartPoints; // = new Point[_leftDivideAngle / 2];
-                    //Point[] LeftEndPoints = new Point[(_leftDivideAngle / 2) - (_leftDivideAngle % 2) - _beginingAnglePhase + 1];
-                    //float[] LeftCentralPointParts = new float[(_leftDivideAngle / 2) - (_leftDivideAngle % 2) - _beginingAnglePhase + 1];
-                    //Point[] RightStartPoints; // = new Point[_rightDivideAngle / 2];
-                    //Point[] RightEndPoints = new Point[(_rightDivideAngle / 2) - (_rightDivideAngle % 2) - _beginingAnglePhase + 1];
-                    //float[] RightCentralPointParts = new float[(_rightDivideAngle / 2) - (_rightDivideAngle % 2) - _beginingAnglePhase + 1];
-
-                    ////LeftStartPoints
-                    //float onepart = 2F / _leftDivideAngle;
-                    //float onepartHalved = onepart / 2;
-                    //for (int i = 0; i < (_leftDivideAngle / 2) - (_leftDivideAngle % 2) - _beginingAnglePhase + 1; i++)
-                    //{
-                    //    LeftCentralPointParts[i] = onepartHalved + (i * onepart);
-                    //}
-                    //LeftStartPoints = CurvePartPoints(0.5F, centrVeinCurPts, LeftCentralPointParts);
-
-                    ////LeftEndPoints
-                    //Point[] LPoints = LeafCurvePoints(true);
-                    //for (int i = 0; i < (_leftDivideAngle / 2) - (_leftDivideAngle % 2) - _beginingAnglePhase + 1; i++)
-                    //{
-                    //    LeftEndPoints[i] = LPoints[i + _leftDivideAngle - (_leftDivideAngle / 2) + (_leftDivideAngle % 2) - _beginingAnglePhase + 2];
-                    //}
-
-                    ////RightStartPoints
-                    //onepart = 2F / _rightDivideAngle;
-                    //onepartHalved = onepart / 2;
-                    //for (int i = 0; i < (_rightDivideAngle / 2) - (_rightDivideAngle % 2) - _beginingAnglePhase + 1; i++)
-                    //{
-                    //    RightCentralPointParts[i] = onepartHalved + (i * onepart);
-                    //}
-                    //RightStartPoints = CurvePartPoints(0.5F, centrVeinCurPts, RightCentralPointParts);
-
-                    ////RightEndPoints
-                    //Point[] RPoints = LeafCurvePoints(false);
-                    //for (int i = 0; i < (_rightDivideAngle / 2) - (_rightDivideAngle % 2) - _beginingAnglePhase + 1; i++)
-                    //{
-                    //    RightEndPoints[i] = RPoints[i + _rightDivideAngle - (_rightDivideAngle / 2) + (_rightDivideAngle % 2) - _beginingAnglePhase + 2];
-                    //}
-
-                    //Pen Veinpen = new Pen(_veinsColor, 2F / (1 + LEVEL));
-                    ////Left minor veins
-                    //for (int i = 0; i < (_leftDivideAngle / 2) - (_leftDivideAngle % 2) - _beginingAnglePhase + 1; i++)
-                    //{
-                    //    graphics.DrawPartLine(Veinpen, LeftStartPoints[i], LeftEndPoints[i], _veinsBorderReachPart);
-                    //}
-
-                    ////Right minor veins
-                    //for (int i = 0; i < (_rightDivideAngle / 2) - (_rightDivideAngle % 2) - _beginingAnglePhase + 1; i++)
-                    //{
-                    //    graphics.DrawPartLine(Veinpen, RightStartPoints[i], RightEndPoints[i], _veinsBorderReachPart);
-                    //}
-
-                    // NEW SYNTAX
-
-                    float Angle = Convert.ToSingle(Math.PI - GoldenAngleRad);
-
-                    // Arrays
-                    Point[] LeftStartPoints; // = new Point[_leftDivideAngle / 2];
-                    Point[] LeftEndPoints = new Point[_leftDivideAngle];
-                    float[] LeftCentralPointParts = new float[_leftDivideAngle];
-                    Point[] RightStartPoints; // = new Point[_rightDivideAngle / 2];
-                    Point[] RightEndPoints = new Point[_rightDivideAngle];
-                    float[] RightCentralPointParts = new float[_rightDivideAngle];
-
-                    List<LineSegment> _lineSegments = new List<LineSegment>();
-                    LineSegment[] LineSegments;
-
-                    // Central Curve
-                    Curve CenterCurve = new Curve(centrVeinCurPts);
-
-                    //LeftStartPoints
-                    float onepart = 1F / (_leftDivideAngle + 1);
-                    float onepartHalved = onepart / 2;
-                    for (int i = 0; i < _leftDivideAngle; i++)
+                    Point[] centrVeinCurPts = CentralVeinCurvePoints;
+                    graphics.DrawCurve(new Pen(_veinsColor, _centralVeinPixelThickness), centrVeinCurPts);
+                    if (_veinsFractalisation > 0)
                     {
-                        LeftCentralPointParts[i] = onepartHalved + (i * onepart);
-                    }
-                    LeftStartPoints = CurvePartPoints(0.5F, centrVeinCurPts, LeftCentralPointParts);
+                        int LEVEL = 1;
+                        //List<Point> points = new List<Point>();
+                        //Bitmap curve = new Bitmap(panelLeaf.Width, panelLeaf.Height);
+                        //for (int x = 0; x < panelLeaf.Width; x++)
+                        //{
+                        //    for (int y = 0; )
+                        //}
 
-                    //LeftEndPoints
-                    Curve LCurve = new Curve(LeafCurvePoints(true), _leftCurveTension);
-                    Point[] LPoints = LCurve.GetDrawnPixelsPoints();
-                    Line vein;
-                    for (int i = 0; i < _leftDivideAngle; i++)
-                    {
-                        //int index = Convert.ToInt32((onepartHalved + (i * onepart) + (5 / LPoints.Length)) * LPoints.Length - 1);                        
-                        //Line vein = new Line(LeftStartPoints[i], LPoints[index]);
-                        //LeftEndPoints[i] = LPoints[i + _leftDivideAngle - (_leftDivideAngle / 2) + (_leftDivideAngle % 2) - _beginingAnglePhase + 1].ToPoint();
-                        //bool inters;
-                        vein = CenterCurve.LineFromPointOn(LeftStartPoints[i]).Rotated(LeftStartPoints[i], -Angle);
-                        LeftEndPoints[i] = vein.Intersect(LCurve);
-                        _lineSegments.Add(new LineSegment(LeftStartPoints[i], LeftEndPoints[i]));
-                    }
+                        // OLD SYNTAX
 
-                    //RightStartPoints
-                    onepart = 1F / (_rightDivideAngle + 1);
-                    onepartHalved = onepart / 2;
-                    for (int i = 0; i < _rightDivideAngle; i++)
-                    {
-                        RightCentralPointParts[i] = onepartHalved + (i * onepart);
-                    }
-                    RightStartPoints = CurvePartPoints(0.5F, centrVeinCurPts, RightCentralPointParts);
+                        // Left side
+                        //Point[] LeftStartPoints; // = new Point[_leftDivideAngle / 2];
+                        //Point[] LeftEndPoints = new Point[(_leftDivideAngle / 2) - (_leftDivideAngle % 2) - _beginingAnglePhase + 1];
+                        //float[] LeftCentralPointParts = new float[(_leftDivideAngle / 2) - (_leftDivideAngle % 2) - _beginingAnglePhase + 1];
+                        //Point[] RightStartPoints; // = new Point[_rightDivideAngle / 2];
+                        //Point[] RightEndPoints = new Point[(_rightDivideAngle / 2) - (_rightDivideAngle % 2) - _beginingAnglePhase + 1];
+                        //float[] RightCentralPointParts = new float[(_rightDivideAngle / 2) - (_rightDivideAngle % 2) - _beginingAnglePhase + 1];
 
-                    //RightEndPoints
-                    Curve RCurve = new Curve(LeafCurvePoints(false), _rightCurveTension);
-                    Point[] RPoints = RCurve.CurvePoints;
-                    for (int i = 0; i < _rightDivideAngle; i++)
-                    {
-                        //int index = Convert.ToInt32((onepartHalved + (i * onepart) + (5 / RPoints.Length)) * RPoints.Length - 1);
-                        //Line vein = new Line(RightStartPoints[i], RPoints[index]);
-                        //LeftEndPoints[i] = LPoints[i + _leftDivideAngle - (_leftDivideAngle / 2) + (_leftDivideAngle % 2) - _beginingAnglePhase + 1].ToPoint();
-                        //bool inters;
-                        vein = CenterCurve.LineFromPointOn(RightStartPoints[i]).Rotated(RightStartPoints[i], Angle);
-                        RightEndPoints[i] = vein.Intersect(RCurve);
-                        _lineSegments.Add(new LineSegment(RightStartPoints[i], RightEndPoints[i]));
-                    }
+                        ////LeftStartPoints
+                        //float onepart = 2F / _leftDivideAngle;
+                        //float onepartHalved = onepart / 2;
+                        //for (int i = 0; i < (_leftDivideAngle / 2) - (_leftDivideAngle % 2) - _beginingAnglePhase + 1; i++)
+                        //{
+                        //    LeftCentralPointParts[i] = onepartHalved + (i * onepart);
+                        //}
+                        //LeftStartPoints = CurvePartPoints(0.5F, centrVeinCurPts, LeftCentralPointParts);
 
-                    LineSegments = _lineSegments.ToArray();
+                        ////LeftEndPoints
+                        //Point[] LPoints = LeafCurvePoints(true);
+                        //for (int i = 0; i < (_leftDivideAngle / 2) - (_leftDivideAngle % 2) - _beginingAnglePhase + 1; i++)
+                        //{
+                        //    LeftEndPoints[i] = LPoints[i + _leftDivideAngle - (_leftDivideAngle / 2) + (_leftDivideAngle % 2) - _beginingAnglePhase + 2];
+                        //}
 
-                    // DRAWING
-                    Pen Veinpen = new Pen(_veinsColor, 2F / (1 + LEVEL));
-                    ////Left minor veins
-                    //for (int i = 0; i < (_leftDivideAngle / 2) - (_leftDivideAngle % 2); i++)
-                    //{
-                    //    graphics.DrawPartLine(Veinpen, LeftStartPoints[i], LeftEndPoints[i], _veinsBorderReachPart);
-                    //}
+                        ////RightStartPoints
+                        //onepart = 2F / _rightDivideAngle;
+                        //onepartHalved = onepart / 2;
+                        //for (int i = 0; i < (_rightDivideAngle / 2) - (_rightDivideAngle % 2) - _beginingAnglePhase + 1; i++)
+                        //{
+                        //    RightCentralPointParts[i] = onepartHalved + (i * onepart);
+                        //}
+                        //RightStartPoints = CurvePartPoints(0.5F, centrVeinCurPts, RightCentralPointParts);
 
-                    ////Right minor veins
-                    //for (int i = 0; i < (_rightDivideAngle / 2) - (_rightDivideAngle % 2); i++)
-                    //{
-                    //    graphics.DrawPartLine(Veinpen, RightStartPoints[i], RightEndPoints[i], _veinsBorderReachPart);
-                    //}
-                    graphics.DrawPartLineSegments(Veinpen, LineSegments, _veinsBorderReachPart);
+                        ////RightEndPoints
+                        //Point[] RPoints = LeafCurvePoints(false);
+                        //for (int i = 0; i < (_rightDivideAngle / 2) - (_rightDivideAngle % 2) - _beginingAnglePhase + 1; i++)
+                        //{
+                        //    RightEndPoints[i] = RPoints[i + _rightDivideAngle - (_rightDivideAngle / 2) + (_rightDivideAngle % 2) - _beginingAnglePhase + 2];
+                        //}
 
-                    LEVEL++;
+                        //Pen Veinpen = new Pen(_veinsColor, 2F / (1 + LEVEL));
+                        ////Left minor veins
+                        //for (int i = 0; i < (_leftDivideAngle / 2) - (_leftDivideAngle % 2) - _beginingAnglePhase + 1; i++)
+                        //{
+                        //    graphics.DrawPartLine(Veinpen, LeftStartPoints[i], LeftEndPoints[i], _veinsBorderReachPart);
+                        //}
 
-                    // More fractalized
-                    while (LEVEL <= _veinsFractalisation)
-                    {
-                        _lineSegments.Clear();
-                        LineSegment[] moved;
-                        foreach (LineSegment segment in LineSegments)
+                        ////Right minor veins
+                        //for (int i = 0; i < (_rightDivideAngle / 2) - (_rightDivideAngle % 2) - _beginingAnglePhase + 1; i++)
+                        //{
+                        //    graphics.DrawPartLine(Veinpen, RightStartPoints[i], RightEndPoints[i], _veinsBorderReachPart);
+                        //}
+
+                        // NEW SYNTAX
+
+                        float Angle = Convert.ToSingle(Math.PI - GoldenAngleRad);
+
+                        // Arrays
+                        Point[] LeftStartPoints; // = new Point[_leftDivideAngle / 2];
+                        Point[] LeftEndPoints = new Point[_leftDivideAngle];
+                        float[] LeftCentralPointParts = new float[_leftDivideAngle];
+                        Point[] RightStartPoints; // = new Point[_rightDivideAngle / 2];
+                        Point[] RightEndPoints = new Point[_rightDivideAngle];
+                        float[] RightCentralPointParts = new float[_rightDivideAngle];
+
+                        List<LineSegment> _lineSegments = new List<LineSegment>();
+                        LineSegment[] LineSegments;
+
+                        // Central Curve
+                        Curve CenterCurve = new Curve(centrVeinCurPts);
+
+                        //LeftStartPoints
+                        float onepart = 1F / (_leftDivideAngle + 1);
+                        float onepartHalved = onepart / 2;
+                        for (int i = 0; i < _leftDivideAngle; i++)
                         {
-                            moved = LineSegments.RotatedAndRescaledVeinsLineSegments(CenterCurve, segment);
-                            foreach (LineSegment sgm in moved)
-                                _lineSegments.Add(sgm);
+                            LeftCentralPointParts[i] = onepartHalved + (i * onepart);
                         }
+                        LeftStartPoints = CurvePartPoints(0.5F, centrVeinCurPts, LeftCentralPointParts);
+
+                        //LeftEndPoints
+                        Curve LCurve = new Curve(LeafCurvePoints(true), _leftCurveTension);
+                        Point[] LPoints = LCurve.GetDrawnPixelsPoints();
+                        Line vein;
+                        for (int i = 0; i < _leftDivideAngle; i++)
+                        {
+                            //int index = Convert.ToInt32((onepartHalved + (i * onepart) + (5 / LPoints.Length)) * LPoints.Length - 1);                        
+                            //Line vein = new Line(LeftStartPoints[i], LPoints[index]);
+                            //LeftEndPoints[i] = LPoints[i + _leftDivideAngle - (_leftDivideAngle / 2) + (_leftDivideAngle % 2) - _beginingAnglePhase + 1].ToPoint();
+                            //bool inters;
+                            vein = CenterCurve.LineFromPointOn(LeftStartPoints[i]).Rotated(LeftStartPoints[i], -Angle);
+                            LeftEndPoints[i] = vein.Intersect(LCurve);
+                            _lineSegments.Add(new LineSegment(LeftStartPoints[i], LeftEndPoints[i]));
+                        }
+
+                        //RightStartPoints
+                        onepart = 1F / (_rightDivideAngle + 1);
+                        onepartHalved = onepart / 2;
+                        for (int i = 0; i < _rightDivideAngle; i++)
+                        {
+                            RightCentralPointParts[i] = onepartHalved + (i * onepart);
+                        }
+                        RightStartPoints = CurvePartPoints(0.5F, centrVeinCurPts, RightCentralPointParts);
+
+                        //RightEndPoints
+                        Curve RCurve = new Curve(LeafCurvePoints(false), _rightCurveTension);
+                        Point[] RPoints = RCurve.CurvePoints;
+                        for (int i = 0; i < _rightDivideAngle; i++)
+                        {
+                            //int index = Convert.ToInt32((onepartHalved + (i * onepart) + (5 / RPoints.Length)) * RPoints.Length - 1);
+                            //Line vein = new Line(RightStartPoints[i], RPoints[index]);
+                            //LeftEndPoints[i] = LPoints[i + _leftDivideAngle - (_leftDivideAngle / 2) + (_leftDivideAngle % 2) - _beginingAnglePhase + 1].ToPoint();
+                            //bool inters;
+                            vein = CenterCurve.LineFromPointOn(RightStartPoints[i]).Rotated(RightStartPoints[i], Angle);
+                            RightEndPoints[i] = vein.Intersect(RCurve);
+                            _lineSegments.Add(new LineSegment(RightStartPoints[i], RightEndPoints[i]));
+                        }
+
                         LineSegments = _lineSegments.ToArray();
 
-                        Veinpen = new Pen(_veinsColor, 2F / (1 + LEVEL));
+                        // DRAWING
+                        Pen Veinpen = new Pen(_veinsColor, 2F / (1 + LEVEL));
+                        ////Left minor veins
+                        //for (int i = 0; i < (_leftDivideAngle / 2) - (_leftDivideAngle % 2); i++)
+                        //{
+                        //    graphics.DrawPartLine(Veinpen, LeftStartPoints[i], LeftEndPoints[i], _veinsBorderReachPart);
+                        //}
+
+                        ////Right minor veins
+                        //for (int i = 0; i < (_rightDivideAngle / 2) - (_rightDivideAngle % 2); i++)
+                        //{
+                        //    graphics.DrawPartLine(Veinpen, RightStartPoints[i], RightEndPoints[i], _veinsBorderReachPart);
+                        //}
                         graphics.DrawPartLineSegments(Veinpen, LineSegments, _veinsBorderReachPart);
 
                         LEVEL++;
+
+                        // More fractalized
+                        while (LEVEL <= _veinsFractalisation)
+                        {
+                            _lineSegments.Clear();
+                            LineSegment[] moved;
+                            foreach (LineSegment segment in LineSegments)
+                            {
+                                moved = LineSegments.RotatedAndRescaledVeinsLineSegments(CenterCurve, segment);
+                                foreach (LineSegment sgm in moved)
+                                    _lineSegments.Add(sgm);
+                            }
+                            LineSegments = _lineSegments.ToArray();
+
+                            Veinpen = new Pen(_veinsColor, 2F / (1 + LEVEL));
+                            graphics.DrawPartLineSegments(Veinpen, LineSegments, _veinsBorderReachPart);
+
+                            LEVEL++;
+                        }
                     }
                 }
+
+                _itselfResized = false;
             }
             
-            if (_drawToGraphics)
-            {
-                e.Graphics.DrawImageUnscaled(Itself, 0, 0);
-            }
-
-            Redraw((Leaf)this, EventArgs.Empty);
+            //Redraw((Leaf)this, EventArgs.Empty);
         }
 
         private Point[] LeafCurvePoints(bool isLeft)
@@ -1496,7 +1589,7 @@ namespace AlgoNature.Components
             {
                 _zeroStateOneLengthPixels = value;
                 _oneLengthPixels = _zeroStateOneLengthPixels + (_alreadyGrownState * _onePartGrowOneLengthPixels);
-                panelNature.Refresh();
+                doRefresh();
             }
         }
 
@@ -1512,7 +1605,7 @@ namespace AlgoNature.Components
             {
                 _onePartGrowOneLengthPixels = value;
                 _oneLengthPixels = _zeroStateOneLengthPixels + (_alreadyGrownState * _onePartGrowOneLengthPixels);
-                panelNature.Refresh();
+                doRefresh();
             }
         }
 
@@ -1528,7 +1621,7 @@ namespace AlgoNature.Components
             {
                 _alreadyGrownState = value;
                 _oneLengthPixels = _zeroStateOneLengthPixels + (_alreadyGrownState * _onePartGrowOneLengthPixels);
-                panelNature.Refresh();
+                doRefresh();
             }
         }
 
@@ -1555,13 +1648,13 @@ namespace AlgoNature.Components
             }
             private set
             {
-                if (_currentTimeAfterLastGrowth + value < _timeToGrowOneStepAfter)
+                if (value < _timeToGrowOneStepAfter)
                 {
-                    _currentTimeAfterLastGrowth += value;
+                    _currentTimeAfterLastGrowth = value;
                 }
                 else
                 {
-                    _currentTimeAfterLastGrowth += _currentTimeAfterLastGrowth + value - _timeToGrowOneStepAfter;
+                    _currentTimeAfterLastGrowth = value - _timeToGrowOneStepAfter;
                     GrowOneStep();
                 }
             }
@@ -1595,7 +1688,8 @@ namespace AlgoNature.Components
             {
                 _alreadyGrownState++;
                 _oneLengthPixels = _zeroStateOneLengthPixels + (_alreadyGrownState * _onePartGrowOneLengthPixels);
-                panelNature.Refresh();
+                _branchLength += (float)Phi;
+                doRefresh();
             }            
         }
 
@@ -1605,8 +1699,9 @@ namespace AlgoNature.Components
             {
                 _oneLengthPixels *= (1 + part);
                 _zeroStateOneLengthPixels *= (1 + part);
-                _onePartGrowOneLengthPixels *= (1 + part);
-                panelNature.Refresh();
+                //_onePartGrowOneLengthPixels *= (1 + part);
+                _branchLength += (float)Phi * part;
+                doRefresh();
             }
         }
 
@@ -1618,7 +1713,7 @@ namespace AlgoNature.Components
             _fillBrush = Brushes.Beige;
             _veinsColor = _veinsColor.CombineWith(Color.Beige, 4F);
             LifeTimer.Stop();
-            panelNature.Refresh();
+            doRefresh();
         }
 
         public void LifeTimerTickHandler(object sender, EventArgs e)
@@ -1689,8 +1784,24 @@ namespace AlgoNature.Components
 
         private void delegRdrw(object sender, EventArgs e) { }
         public event RedrawEventHandler Redraw;
-                
-        public Bitmap Itself { get; private set; }
+
+        private bool itselfRefresh;
+        private Bitmap _itself;
+        public Bitmap Itself
+        {
+            get
+            {
+                if (itselfRefresh)
+                {
+                    _itself?.Dispose();
+                    _itself = new Bitmap(panelNature.Width, panelNature.Height);
+                    _itself.MakeTransparent();
+                    doPaint(Graphics.FromImage(_itself));
+                    itselfRefresh = false;
+                }
+                return _itself;
+            }            
+        }
 
         //public Panel PanelNature
         #endregion
@@ -1702,5 +1813,7 @@ namespace AlgoNature.Components
 
         public string UniqueIDToRedrawException()
             => this.ToString() + Convert.ToString(this.GetHashCode());
+
+        
     }
 }
