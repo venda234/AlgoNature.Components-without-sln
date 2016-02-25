@@ -297,15 +297,15 @@ namespace AlgoNature.Components
             //Leaf toAdd = new Leaf(_centerPoint, 3, 5, 10, 0, _oneLengthPixels, _oneLengthPixels * 2, _oneLengthPixels * 3,
             //    new TimeSpan(0, 0, 30), new TimeSpan(0, 10, 0), 0.1, _currentFylotaxisAngle);
             //toAdd.RotationAngleRad = _currentFylotaxisAngle;
-            
-            Leaf toAdd = new Leaf(_centerPoint, 1, 10, 0, 1, _oneLengthPixels, _oneLengthPixels, _oneLengthPixels,
+            //this.SuspendLayout();
+            Leaf toAdd = new Leaf(_centerPoint, 1, 10, 0, 1, _oneLengthPixels, _oneLengthPixels, _oneLengthPixels, 0,
                 new TimeSpan(0, 0, 10), new TimeSpan(0, 10, 0), 0.2, _currentFylotaxisAngle, true);
             //Panel panel = new Panel() { Size = this.Size, BackColor = Color.Transparent };
             panelNature.Controls.Add(toAdd);
             //panelNature.Controls[_alreadyGrownState - 1].BringToFront();
             //((Leaf)panelNature.Controls[0]).Location = ((Leaf)panelNature.Controls[0]).Location.Add(this.CenterPoint.Substract(((Leaf)panelNature.Controls[0]).CenterPointParentAbsoluteLocation));
             //this.ResumeLayout();
-            //this.SuspendLayout();
+            
         }
 
         public void GrowPart(float part)

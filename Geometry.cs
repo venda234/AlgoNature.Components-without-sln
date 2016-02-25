@@ -122,7 +122,7 @@ namespace AlgoNature.Components
             int posunY = (yMin < 0) ? -yMin : 0;
 
             int Width = xMax + posunX + 1; // +1 index vs. délka
-            Width += (int)(Width * Tension); // +rezerva
+            Width += (int)(Width * Tension * 2); // +rezerva
             int Height = yMax + posunY + 12;
             Height += (int)(Height * Tension);
 

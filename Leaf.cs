@@ -578,6 +578,63 @@ namespace AlgoNature.Components
             itselfRefresh = true;
             //this.Refresh();
         }
+        public Leaf(Point PointFromWhereToGrowBranch, float BranchLngth, int DivideAngle, int StartPart, int OnePartRelativePosition, float OneLengthPixels,
+            float zeroStateOneLengthPixels, float onePartGrowOneLengthPixels, int VeinsFractalisation, TimeSpan timeToGrowOneStepAfter,
+            TimeSpan timeToAverageDieAfter, double deathTimeSpanFromAveragePart, float RotationRad, bool DrawToGraphics)
+        {
+            InitializeComponent();
+            secondPaint = false;
+            _isBilaterallySymetric = true;
+            _leftDivideAngle = _rightDivideAngle = _divideAngle = DivideAngle;
+            _curveBehindCenterPoint = true;
+            _smoothTop = false;
+            _rotationAngleRad = 0;
+            _oneLengthPixels = OneLengthPixels;
+            _onePartPossition = OnePartRelativePosition;
+            _beginingAnglePhase = StartPart;
+            _leftCurveTension = _rightCurveTension = 0.5F;
+            _invertedCurving = false;
+            _invertedCurvingCenter = 7;
+            _invertedCurvingSpan = 1;
+            int xCenter = panelNature.Width / 2;
+            int yCenter = Convert.ToInt32(_oneLengthPixels * Math.Pow(Phi, _divideAngle - _onePartPossition - _beginingAnglePhase + 1));
+            _centerPoint = new Point(xCenter, yCenter);
+            _fill = true;
+            _borderColor = Pens.DarkGreen;
+            _fillBrush = Brushes.Green;
+            _veinsColor = Color.GreenYellow;
+            _veins = true;
+            _veinsFractalisation = VeinsFractalisation;
+            _veinsBorderReachPart = 0.95F;
+            _centralVeinPixelThickness = 2;
+            //_panelBitmap = new Bitmap(this.Width, this.Height);
+            _userEditedCenterPoint = false;
+            this.Location = AbsoluteCenterPointLocation.Substract(_centerPoint);
+            //_locationBasedOnCenterPoint = true;
+            _hasBranch = true;
+            _branchLength = BranchLngth;
+            _centerPointBelongsToBranch = true;
+            _branchPen = new Pen(_borderColor.Color, _centralVeinPixelThickness * 2);
+            _rotationAngleRad = RotationRad;
+
+            //IGrowable
+            _zeroStateOneLengthPixels = zeroStateOneLengthPixels;
+            _onePartGrowOneLengthPixels = onePartGrowOneLengthPixels;
+            _alreadyGrownState = 0;
+            _currentTimeAfterLastGrowth = new TimeSpan(0);
+            _isDead = false;
+            _timeToGrowOneStepAfter = timeToGrowOneStepAfter;
+            _timeToAverageDieAfter = timeToAverageDieAfter;
+            _deathTimeSpanFromAveragePart = deathTimeSpanFromAveragePart;
+            LifeTimer = new Timer();
+            LifeTimer.Interval = 500;
+            LifeTimer.Tick += new EventHandler(LifeTimerTickHandler);
+            LifeTimer.Start();
+            _drawToGraphics = DrawToGraphics;
+            Redraw += delegRdrw;
+            itselfRefresh = true;
+            //this.Refresh();
+        }
         #endregion
 
         #region Properties
@@ -932,7 +989,7 @@ namespace AlgoNature.Components
         private Point getCenterPoint() => _centerPointBelongsToBranch ? _centerPoint.Add(new Vector2(0, -_branchLength * _oneLengthPixels).Rotated(_rotationAngleRad)) : _centerPoint;
         
         // Resizing in case of painting out of the control
-        private Task resizeToShowAll(Point[] CurvePoints, float Tension)
+        private void resizeToShowAll(Point[] CurvePoints, float Tension)
         {
             int xMin = 0;
             int xMax = 0;
@@ -942,7 +999,7 @@ namespace AlgoNature.Components
             {
                 //Point p = CurvePoints[i];
                 Point vect = p.Substract(getCenterPoint());
-                Point tensioned = getCenterPoint().Add((1 + (0.1F * Tension)) * new Vector2(vect.X, vect.Y));
+                Point tensioned = getCenterPoint().Add((1 + (_oneLengthPixels * Tension)) * new Vector2(vect.X, vect.Y));
                 if (tensioned.X < xMin) xMin = tensioned.X;
                 if (tensioned.X > xMax) xMax = tensioned.X;
                 if (tensioned.Y < yMin) yMin = tensioned.Y;
@@ -963,10 +1020,10 @@ namespace AlgoNature.Components
                     {
                         CurvePoints[j] = CurvePoints[j].Add(subst);
                     }
-                    if (loc >= 0) _itselfResizedArr[0] = true;
+                    /*if (loc >= 0)*/ _itselfResizedArr[0] = true;
                 }
             }
-            if (xMax > this.Width)
+            if (xMax - xMin > this.Width)
             {
                 if (!_itselfResizedArr[1])
                 {
@@ -994,10 +1051,10 @@ namespace AlgoNature.Components
                     {
                         CurvePoints[j] = CurvePoints[j].Add(subst);
                     }
-                    if (loc >= 0) _itselfResizedArr[2] = true;
+                    /*if (loc >= 0)*/ _itselfResizedArr[2] = true;
                 }
             }
-            if (yMax > this.Height)
+            if (yMax - yMin > this.Height)
             {
                 if (!_itselfResizedArr[3])
                 {
@@ -1010,8 +1067,9 @@ namespace AlgoNature.Components
                     _itselfResizedArr[3] = true;
                 }
             }
-            //_itself = new Bitmap(_itself, this.Size); 
-            return Task.CompletedTask;
+            //_itself = new Bitmap(_itself, this.Size);
+            if (!itselfRefresh) doItselfRefresh();
+            //return Task.CompletedTask;
         }
 
         private void Leaf_Resize(object sender, EventArgs e)
@@ -1043,10 +1101,16 @@ namespace AlgoNature.Components
             panelNature.Refresh();
         }
 
-        private void panelLeaf_Paint(object sender, PaintEventArgs e)
+        private async void panelLeaf_Paint(object sender, PaintEventArgs e)
+        {
+            await doPanelPaint(e);
+            //Task.Run(await doPanelPaint(e))            
+        }
+        private Task doPanelPaint(PaintEventArgs e)
         {
             if (!secondPaint)
             {
+                if (Itself == null) doItselfRefresh();
                 //panelNature.SuspendLayout();
                 itselfRefresh = true;
                 if (_drawToGraphics)
@@ -1057,6 +1121,7 @@ namespace AlgoNature.Components
                 secondPaint = true;
                 //panelNature.ResumeLayout();
             }
+            return Task.CompletedTask;
         }
 
         private bool _itselfResized
@@ -1071,7 +1136,7 @@ namespace AlgoNature.Components
             }
         }
         private bool[] _itselfResizedArr = new bool[4] { false, false, false, false };
-        private async void doPaint(Graphics graphics) 
+        private void doPaint(Graphics graphics) 
         {
             //panelLeaf.DrawToBitmap(_panelBitmap, panelLeaf.ClientRectangle);
             if (!_userEditedCenterPoint)
@@ -1087,8 +1152,8 @@ namespace AlgoNature.Components
                 Point[] RPoints = LeafCurvePoints(false);
                 if (!_itselfResized)
                 {
-                    await resizeToShowAll(LPoints, _leftCurveTension);
-                    await resizeToShowAll(RPoints, _rightCurveTension);
+                    resizeToShowAll(LPoints.Union(RPoints), (_leftCurveTension > _rightCurveTension) ? _leftCurveTension : _rightCurveTension);
+                    //resizeToShowAll(RPoints, _rightCurveTension);
                 }                
             }
             else
@@ -1097,7 +1162,7 @@ namespace AlgoNature.Components
                 float tension = (_leftCurveTension + _rightCurveTension) / 2;
                 if (!_itselfResized)
                 {
-                    await resizeToShowAll(curvePoints, tension);
+                    resizeToShowAll(curvePoints, tension);
                 }
             }
 
@@ -1105,6 +1170,7 @@ namespace AlgoNature.Components
             {
                 //_itselfResized = false;
                 secondBitmapDraw = true;
+                doItselfRefresh();
                 graphics.DrawImage(Itself, 0, 0);
                 secondBitmapDraw = false;
             }
@@ -1139,7 +1205,7 @@ namespace AlgoNature.Components
                     Point[] curvePoints = RightCurvePoints.ReversedPointsWithoutFirst();
                     float tension = (_leftCurveTension + _rightCurveTension) / 2;
 
-                    await resizeToShowAll(curvePoints, tension);
+                    //resizeToShowAll(curvePoints, tension);
 
                     if (_fill)
                     {
@@ -1340,7 +1406,7 @@ namespace AlgoNature.Components
 
                 _itselfResized = false;
             }
-            
+            //return Task.CompletedTask;
             //Redraw((Leaf)this, EventArgs.Empty);
         }
 
@@ -1720,6 +1786,7 @@ namespace AlgoNature.Components
                 _alreadyGrownState++;
                 _oneLengthPixels = _zeroStateOneLengthPixels + (_alreadyGrownState * _onePartGrowOneLengthPixels);
                 _branchLength += (float)Phi;
+                doItselfRefresh();
                 doRefresh();
             }            
         }
@@ -1823,18 +1890,30 @@ namespace AlgoNature.Components
         {
             get
             {
-                if (itselfRefresh)
-                {
-                    _itself?.Dispose();
-                    _itself = new Bitmap(panelNature.Width, panelNature.Height);
-                    _itself.MakeTransparent();
-                    _itselfResized = false;
-                    doPaint(Graphics.FromImage(_itself));
-                    _itselfResized = false;
-                    itselfRefresh = false;
-                }
+                //if (itselfRefresh)
+                //{
+                //    _itself?.Dispose();
+                //    _itself = new Bitmap(panelNature.Width, panelNature.Height);
+                //    _itself.MakeTransparent();
+                //    _itselfResized = false;
+                //    doPaint(Graphics.FromImage(_itself));
+                //    _itselfResized = false;
+                //    itselfRefresh = false;
+                //}
                 return _itself;
             }            
+        }
+        //private bool doingItselfRefresh = false;
+        private void doItselfRefresh()
+        {
+            _itself?.Dispose();
+            _itself = new Bitmap(panelNature.Width, panelNature.Height);
+            _itself.MakeTransparent();
+            _itselfResized = false;
+            itselfRefresh = true;
+            doPaint(Graphics.FromImage(_itself));
+            _itselfResized = false;
+            itselfRefresh = false;
         }
 
         //public Panel PanelNature
