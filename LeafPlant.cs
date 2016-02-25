@@ -39,9 +39,9 @@ namespace AlgoNature.Components
             GrowOneStep();
 
             // IGrowable
-            _zeroStateOneLengthPixels = 0.5F;
-            _onePartGrowOneLengthPixels = 0.5F;
-            _alreadyGrownState = 1;
+            _zeroStateOneLengthPixels = 0.05F;
+            _onePartGrowOneLengthPixels = 0.05F;
+            _alreadyGrownState = 0;
             _currentTimeAfterLastGrowth = new TimeSpan(0);
             _isDead = false;
             TimeToGrowOneStepAfter = new TimeSpan(0, 0, 10);
@@ -145,12 +145,18 @@ namespace AlgoNature.Components
         private void panelPlant_Paint(object sender, PaintEventArgs e)
         {
             //Itself = new Bitmap(panelNature.Width, panelNature.Height);
-            //Graphics g = Graphics.FromImage(Itself);
 
-            //foreach (IGrowableGraphicChild child in _childrenLeaves)
-            //{
-            //    g.DrawImage(child.Itself, child.Location);
-            //}
+            /*Graphics gr = e.Graphics;
+            panelNature.SuspendLayout();
+            Bitmap bmp = new Bitmap(panelNature.Width, panelNature.Height);
+            bmp.MakeTransparent();
+            Graphics g = Graphics.FromImage(bmp);
+            foreach (IGrowableGraphicChild child in panelNature.Controls)
+            {
+                g.DrawImage(child.Itself, child.Location);
+            }
+            gr.DrawImage(bmp, 0, 0);
+            panelNature.ResumeLayout();*/
 
             //if (_drawToGraphics) e.Graphics.DrawImageUnscaled(Itself, 0, 0);
 
@@ -286,18 +292,20 @@ namespace AlgoNature.Components
 
         public void GrowOneStep()
         {
+            this._alreadyGrownState++;
             _currentFylotaxisAngle += _fylotaxisAngle;
             //Leaf toAdd = new Leaf(_centerPoint, 3, 5, 10, 0, _oneLengthPixels, _oneLengthPixels * 2, _oneLengthPixels * 3,
             //    new TimeSpan(0, 0, 30), new TimeSpan(0, 10, 0), 0.1, _currentFylotaxisAngle);
             //toAdd.RotationAngleRad = _currentFylotaxisAngle;
-            this.SuspendLayout();
-            Leaf toAdd = new Leaf(_centerPoint, 1, 4, 0, 1, _oneLengthPixels, _oneLengthPixels * 2, _oneLengthPixels * 3,
-                new TimeSpan(0, 0, 5), new TimeSpan(0, 10, 0), 0.2, _currentFylotaxisAngle, true);
+            
+            Leaf toAdd = new Leaf(_centerPoint, 1, 10, 0, 1, _oneLengthPixels, _oneLengthPixels, _oneLengthPixels,
+                new TimeSpan(0, 0, 10), new TimeSpan(0, 10, 0), 0.2, _currentFylotaxisAngle, true);
             //Panel panel = new Panel() { Size = this.Size, BackColor = Color.Transparent };
-            this.Controls.Add(toAdd);
-            this.Controls.SetChildIndex(toAdd, 0);
+            panelNature.Controls.Add(toAdd);
+            //panelNature.Controls[_alreadyGrownState - 1].BringToFront();
             //((Leaf)panelNature.Controls[0]).Location = ((Leaf)panelNature.Controls[0]).Location.Add(this.CenterPoint.Substract(((Leaf)panelNature.Controls[0]).CenterPointParentAbsoluteLocation));
-            this.ResumeLayout();
+            //this.ResumeLayout();
+            //this.SuspendLayout();
         }
 
         public void GrowPart(float part)
@@ -308,6 +316,7 @@ namespace AlgoNature.Components
         public void LifeTimerTickHandler(object sender, EventArgs e)
         {
             CurrentTimeAfterLastGrowth += new TimeSpan(0, 0, 0, 0, LifeTimer.Interval);
+            //panelNature.Refresh();
         }
 
         public event RedrawEventHandler Redraw;

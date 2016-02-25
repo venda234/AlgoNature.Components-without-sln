@@ -950,53 +950,65 @@ namespace AlgoNature.Components
             }
             if (xMin < 0)
             {
-                int loc = this.Location.X + xMin;
-                Point location = new Point(/*(loc < 0) ? 0 :*/ loc, this.Location.Y);
-                Point subst = this.Location.Substract(location);
-                this.Location = location;
-                this.Size = panelNature.Size = this.Size + new Size(subst);
-                _centerPoint = _centerPoint.Add(subst);
-                _userEditedCenterPoint = true;
-                for (int j = 0; j < CurvePoints.Length; j++)
+                if (!_itselfResizedArr[0])
                 {
-                    CurvePoints[j] = CurvePoints[j].Add(subst);
+                    int loc = this.Location.X + xMin;
+                    Point location = new Point(/*(loc < 0) ? 0 :*/ loc, this.Location.Y);
+                    Point subst = this.Location.Substract(location);
+                    this.Location = location;
+                    this.Size = panelNature.Size = this.Size + new Size(subst);
+                    _centerPoint = _centerPoint.Add(subst);
+                    _userEditedCenterPoint = true;
+                    for (int j = 0; j < CurvePoints.Length; j++)
+                    {
+                        CurvePoints[j] = CurvePoints[j].Add(subst);
+                    }
+                    if (loc >= 0) _itselfResizedArr[0] = true;
                 }
-                if (loc >= 0) _itselfResized = true;
             }
             if (xMax > this.Width)
             {
-                Size add = new Size(xMax - this.Width, 0);
-                //Point subst = this.Location.Substract(location);
-                //this.Location = location;
-                this.Size = panelNature.Size = this.Size + add;
-                //_centerPoint = _centerPoint.Add(subst);
-                _userEditedCenterPoint = true;
-                _itselfResized = true;
+                if (!_itselfResizedArr[1])
+                {
+                    Size add = new Size(xMax - this.Width, 0);
+                    //Point subst = this.Location.Substract(location);
+                    //this.Location = location;
+                    this.Size = panelNature.Size = this.Size + add;
+                    //_centerPoint = _centerPoint.Add(subst);
+                    _userEditedCenterPoint = true;
+                    _itselfResizedArr[1] = true;
+                }
             }
             if (yMin < 0)
             {
-                int loc = this.Location.Y + yMin;
-                Point location = new Point(this.Location.X, /*(loc < 0) ? 0 :*/ loc);
-                Point subst = this.Location.Substract(location);
-                this.Location = location;
-                this.Size = panelNature.Size = this.Size + new Size(subst);
-                _centerPoint = _centerPoint.Add(subst);
-                _userEditedCenterPoint = true;
-                for (int j = 0; j < CurvePoints.Length; j++)
+                if (!_itselfResizedArr[2])
                 {
-                    CurvePoints[j] = CurvePoints[j].Add(subst);
+                    int loc = this.Location.Y + yMin;
+                    Point location = new Point(this.Location.X, /*(loc < 0) ? 0 :*/ loc);
+                    Point subst = this.Location.Substract(location);
+                    this.Location = location;
+                    this.Size = panelNature.Size = this.Size + new Size(subst);
+                    _centerPoint = _centerPoint.Add(subst);
+                    _userEditedCenterPoint = true;
+                    for (int j = 0; j < CurvePoints.Length; j++)
+                    {
+                        CurvePoints[j] = CurvePoints[j].Add(subst);
+                    }
+                    if (loc >= 0) _itselfResizedArr[2] = true;
                 }
-                if (loc >= 0) _itselfResized = true;
             }
             if (yMax > this.Height)
             {
-                Size add = new Size(0, yMax - this.Height);
-                //Point subst = this.Location.Substract(location);
-                //this.Location = location;
-                this.Size = panelNature.Size = this.Size + add;
-                //_centerPoint = _centerPoint.Add(subst);
-                _userEditedCenterPoint = true;
-                _itselfResized = true;
+                if (!_itselfResizedArr[3])
+                {
+                    Size add = new Size(0, yMax - this.Height);
+                    //Point subst = this.Location.Substract(location);
+                    //this.Location = location;
+                    this.Size = panelNature.Size = this.Size + add;
+                    //_centerPoint = _centerPoint.Add(subst);
+                    _userEditedCenterPoint = true;
+                    _itselfResizedArr[3] = true;
+                }
             }
             //_itself = new Bitmap(_itself, this.Size); 
             return Task.CompletedTask;
@@ -1005,6 +1017,7 @@ namespace AlgoNature.Components
         private void Leaf_Resize(object sender, EventArgs e)
         {
             secondPaint = false;
+            panelNature.Size = this.Size;
         }
 
         private void Leaf_Layout(object sender, LayoutEventArgs e)
@@ -1026,6 +1039,7 @@ namespace AlgoNature.Components
         private void doRefresh()
         {
             secondPaint = false;
+            _itselfResized = false;
             panelNature.Refresh();
         }
 
@@ -1033,7 +1047,7 @@ namespace AlgoNature.Components
         {
             if (!secondPaint)
             {
-                this.SuspendLayout();
+                //panelNature.SuspendLayout();
                 itselfRefresh = true;
                 if (_drawToGraphics)
                 {
@@ -1041,11 +1055,22 @@ namespace AlgoNature.Components
                     g.DrawImage(Itself, 0, 0);
                 }
                 secondPaint = true;
-                this.ResumeLayout();
+                //panelNature.ResumeLayout();
             }
         }
 
-        private bool _itselfResized;
+        private bool _itselfResized
+        {
+            get
+            {
+                return _itselfResizedArr[0] || _itselfResizedArr[1] || _itselfResizedArr[2] || _itselfResizedArr[3];
+            }
+            set
+            {
+                _itselfResizedArr = new bool[4] { value, value, value, value }; 
+            }
+        }
+        private bool[] _itselfResizedArr = new bool[4] { false, false, false, false };
         private async void doPaint(Graphics graphics) 
         {
             //panelLeaf.DrawToBitmap(_panelBitmap, panelLeaf.ClientRectangle);
@@ -1060,22 +1085,28 @@ namespace AlgoNature.Components
             {
                 Point[] LPoints = LeafCurvePoints(true);
                 Point[] RPoints = LeafCurvePoints(false);
-
-                await resizeToShowAll(LPoints, _leftCurveTension);
-                await resizeToShowAll(RPoints, _rightCurveTension);
+                if (!_itselfResized)
+                {
+                    await resizeToShowAll(LPoints, _leftCurveTension);
+                    await resizeToShowAll(RPoints, _rightCurveTension);
+                }                
             }
             else
             {
                 Point[] curvePoints = RightCurvePoints.ReversedPointsWithoutFirst();
                 float tension = (_leftCurveTension + _rightCurveTension) / 2;
-
-                await resizeToShowAll(curvePoints, tension);
+                if (!_itselfResized)
+                {
+                    await resizeToShowAll(curvePoints, tension);
+                }
             }
 
-            if (_itselfResized)
+            if (_itselfResized && !secondBitmapDraw)
             {
-                _itselfResized = false;
+                //_itselfResized = false;
+                secondBitmapDraw = true;
                 graphics.DrawImage(Itself, 0, 0);
+                secondBitmapDraw = false;
             }
             else
             {
@@ -1786,6 +1817,7 @@ namespace AlgoNature.Components
         public event RedrawEventHandler Redraw;
 
         private bool itselfRefresh;
+        private bool secondBitmapDraw = false;
         private Bitmap _itself;
         public Bitmap Itself
         {
@@ -1796,7 +1828,9 @@ namespace AlgoNature.Components
                     _itself?.Dispose();
                     _itself = new Bitmap(panelNature.Width, panelNature.Height);
                     _itself.MakeTransparent();
+                    _itselfResized = false;
                     doPaint(Graphics.FromImage(_itself));
+                    _itselfResized = false;
                     itselfRefresh = false;
                 }
                 return _itself;
