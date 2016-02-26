@@ -25,7 +25,7 @@ namespace AlgoNature.Components
         {
             InitializeComponent();
             _centerPoint = new Point(this.Width / 2, this.Height / 2);
-            _oneLengthPixels = 3;
+            _oneLengthPixels = 1;
             _drawToGraphics = true;
             //_childrenLeaves = new RedrawHandlingList<Leaf>();
             //_childrenLeaves.Redraw += RedrawPanel;
@@ -169,7 +169,7 @@ namespace AlgoNature.Components
 
             foreach (IGrowableGraphicChild child in panelNature.Controls)
             {
-                g.DrawImage((Image)child.Itself.Clone(), child.Location);
+                g.DrawImage(new Bitmap(child.Itself), child.Location);
             }
             //bitmap = ((IGrowableGraphicChild)panelNature.Controls[0]).Itself; 
             // Pravděpodobně se předává pointer na bitmapu místo statické bitmapy
@@ -226,7 +226,11 @@ namespace AlgoNature.Components
                     _currentTimeAfterLastGrowth = value - TimeToGrowOneStepAfter;
                     GrowOneStep();
                     Thread.Sleep(1000);
-                    panelNature.Refresh();
+                    using (var g = panelNature.CreateGraphics())
+                    {
+                        g.Dispose();
+                    }
+                    this.Invalidate();
                 }
             }
         }
