@@ -319,7 +319,7 @@ namespace AlgoNature.Components
             //    new TimeSpan(0, 0, 30), new TimeSpan(0, 10, 0), 0.1, _currentFylotaxisAngle);
             //toAdd.RotationAngleRad = _currentFylotaxisAngle;
             //this.SuspendLayout();
-            Leaf toAdd = new Leaf(_centerPoint, 1, 10, 0, 1, _oneLengthPixels, _oneLengthPixels, _oneLengthPixels, 0,
+            Leaf toAdd = new Leaf(_centerPoint, 1, 10, 0, 1, _oneLengthPixels, _oneLengthPixels, _oneLengthPixels, 1,
                 new TimeSpan(0, 0, 10), new TimeSpan(0, 10, 0), 0.2, _currentFylotaxisAngle, false);
             //Panel panel = new Panel() { Size = this.Size, BackColor = Color.Transparent };
             //Bitmap bmp = toAdd.Itself;
