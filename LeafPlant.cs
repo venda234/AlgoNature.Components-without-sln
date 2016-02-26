@@ -153,7 +153,7 @@ namespace AlgoNature.Components
             panelNature.SuspendLayout();
             Bitmap bmp;
             await panelPaint(out bmp);
-            
+            //gr.Clear(Color.Transparent);
             gr.DrawImage(bmp, 0, 0);
             panelNature.ResumeLayout();
             //this.Enabled = true;
@@ -161,7 +161,7 @@ namespace AlgoNature.Components
 
             //Redraw.Invoke(this, EventArgs.Empty);
         }
-        private Task panelPaint(out Bitmap bitmp)
+        private Task panelPaint(out Bitmap bitmap)
         {
             Bitmap bmp = new Bitmap(panelNature.Width, panelNature.Height);
             bmp.MakeTransparent();
@@ -171,7 +171,10 @@ namespace AlgoNature.Components
             {
                 g.DrawImage((Image)child.Itself.Clone(), child.Location);
             }
-            bitmp = bmp;
+            //bitmap = ((IGrowableGraphicChild)panelNature.Controls[0]).Itself; 
+            // Pravděpodobně se předává pointer na bitmapu místo statické bitmapy
+            // => Vykresluje se automaticky, když se změní bitmapa v paměti
+            bitmap = bmp;
             return Task.CompletedTask;
         }
 
@@ -315,9 +318,10 @@ namespace AlgoNature.Components
             Leaf toAdd = new Leaf(_centerPoint, 1, 10, 0, 1, _oneLengthPixels, _oneLengthPixels, _oneLengthPixels, 0,
                 new TimeSpan(0, 0, 10), new TimeSpan(0, 10, 0), 0.2, _currentFylotaxisAngle, false);
             //Panel panel = new Panel() { Size = this.Size, BackColor = Color.Transparent };
-            Bitmap bmp = toAdd.Itself;
-            bmp.Dispose();
+            //Bitmap bmp = toAdd.Itself;
+            //bmp.Dispose();
             panelNature.Controls.Add(toAdd);
+            panelNature.Controls[_alreadyGrownState - 1].BringToFront();
             //panelNature.Controls[_alreadyGrownState - 1].BringToFront();
             //((Leaf)panelNature.Controls[0]).Location = ((Leaf)panelNature.Controls[0]).Location.Add(this.CenterPoint.Substract(((Leaf)panelNature.Controls[0]).CenterPointParentAbsoluteLocation));
             //this.ResumeLayout();

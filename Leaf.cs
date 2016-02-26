@@ -1009,8 +1009,8 @@ namespace AlgoNature.Components
             foreach (Point p in CurvePoints)
             {
                 //Point p = CurvePoints[i];
-                Point vect = p.Substract(getCenterPoint());
-                Point tensioned = getCenterPoint().Add((1 + (0.1F + Tension)) * new Vector2(vect.X, vect.Y));
+                Point vect = p.Substract(_centerPoint);
+                Point tensioned = _centerPoint.Add((1 + (0.1F + Tension)) * new Vector2(vect.X, vect.Y));
                 if (tensioned.X < xMin) xMin = tensioned.X;
                 if (tensioned.X > xMax) xMax = tensioned.X;
                 if (tensioned.Y < yMin) yMin = tensioned.Y;
