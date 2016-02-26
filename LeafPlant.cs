@@ -12,6 +12,7 @@ using System.Windows.Forms;
 //using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
+using System.Threading;
 using static AlgoNature.Components.Generals;
 using static AlgoNature.Components.Geometry;
 
@@ -47,7 +48,7 @@ namespace AlgoNature.Components
             TimeToGrowOneStepAfter = new TimeSpan(0, 0, 10);
             TimeToAverageDieAfter = new TimeSpan(0, 5, 0);
             DeathTimeSpanFromAveragePart = 0.1;
-            LifeTimer = new Timer();
+            LifeTimer = new System.Windows.Forms.Timer();
             LifeTimer.Interval = 500;
             LifeTimer.Tick += new EventHandler(LifeTimerTickHandler);
             LifeTimer.Start();
@@ -142,25 +143,36 @@ namespace AlgoNature.Components
             panelNature.Refresh();
         }
 
-        private void panelPlant_Paint(object sender, PaintEventArgs e)
+        private async void panelPlant_Paint(object sender, PaintEventArgs e)
         {
             //Itself = new Bitmap(panelNature.Width, panelNature.Height);
 
-            /*Graphics gr = e.Graphics;
+            //this.Invalidate();
+            this.Enabled = false;
+            Graphics gr = e.Graphics;
             panelNature.SuspendLayout();
-            Bitmap bmp = new Bitmap(panelNature.Width, panelNature.Height);
-            bmp.MakeTransparent();
-            Graphics g = Graphics.FromImage(bmp);
-            foreach (IGrowableGraphicChild child in panelNature.Controls)
-            {
-                g.DrawImage(child.Itself, child.Location);
-            }
+            Bitmap bmp;
+            await panelPaint(out bmp);
+            
             gr.DrawImage(bmp, 0, 0);
-            panelNature.ResumeLayout();*/
-
+            panelNature.ResumeLayout();
+            //this.Enabled = true;
             //if (_drawToGraphics) e.Graphics.DrawImageUnscaled(Itself, 0, 0);
 
             //Redraw.Invoke(this, EventArgs.Empty);
+        }
+        private Task panelPaint(out Bitmap bitmp)
+        {
+            Bitmap bmp = new Bitmap(panelNature.Width, panelNature.Height);
+            bmp.MakeTransparent();
+            Graphics g = Graphics.FromImage(bmp);
+
+            foreach (IGrowableGraphicChild child in panelNature.Controls)
+            {
+                g.DrawImage((Image)child.Itself.Clone(), child.Location);
+            }
+            bitmp = bmp;
+            return Task.CompletedTask;
         }
 
         #region IGrowableGraphicChild implementation
@@ -210,6 +222,8 @@ namespace AlgoNature.Components
                 {
                     _currentTimeAfterLastGrowth = value - TimeToGrowOneStepAfter;
                     GrowOneStep();
+                    Thread.Sleep(1000);
+                    panelNature.Refresh();
                 }
             }
         }
@@ -299,8 +313,10 @@ namespace AlgoNature.Components
             //toAdd.RotationAngleRad = _currentFylotaxisAngle;
             //this.SuspendLayout();
             Leaf toAdd = new Leaf(_centerPoint, 1, 10, 0, 1, _oneLengthPixels, _oneLengthPixels, _oneLengthPixels, 0,
-                new TimeSpan(0, 0, 10), new TimeSpan(0, 10, 0), 0.2, _currentFylotaxisAngle, true);
+                new TimeSpan(0, 0, 10), new TimeSpan(0, 10, 0), 0.2, _currentFylotaxisAngle, false);
             //Panel panel = new Panel() { Size = this.Size, BackColor = Color.Transparent };
+            Bitmap bmp = toAdd.Itself;
+            bmp.Dispose();
             panelNature.Controls.Add(toAdd);
             //panelNature.Controls[_alreadyGrownState - 1].BringToFront();
             //((Leaf)panelNature.Controls[0]).Location = ((Leaf)panelNature.Controls[0]).Location.Add(this.CenterPoint.Substract(((Leaf)panelNature.Controls[0]).CenterPointParentAbsoluteLocation));

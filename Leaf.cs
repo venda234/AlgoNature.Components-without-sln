@@ -59,6 +59,7 @@ namespace AlgoNature.Components
             _drawToGraphics = true;
             Redraw += delegRdrw;
             itselfRefresh = true;
+            doItselfRefresh();
             ////IGrowable
             //_zeroStateOneLengthPixels = 0.5F;
             //_onePartGrowOneLengthPixels = 0.5F;
@@ -128,6 +129,7 @@ namespace AlgoNature.Components
             Redraw += delegRdrw;
             itselfRefresh = true;
             //this.Refresh();
+            doItselfRefresh();
         }
         public Leaf(Point AbsoluteCenterPoint)
         {
@@ -182,6 +184,7 @@ namespace AlgoNature.Components
             Redraw += delegRdrw;
             itselfRefresh = true;
             //this.Refresh();
+            doItselfRefresh();
         }
         public Leaf(Point AbsoluteCenterPoint, bool Growing)
         {
@@ -239,6 +242,7 @@ namespace AlgoNature.Components
             Redraw += delegRdrw;
             itselfRefresh = true;
             //this.Refresh();
+            doItselfRefresh();
         }
         public Leaf(Point AbsoluteCenterPointLocation, int DivideAngle, int StartPart, int OnePartRelativePosition, float OneLengthPixels)
         {
@@ -293,6 +297,7 @@ namespace AlgoNature.Components
             Redraw += delegRdrw;
             itselfRefresh = true;
             //this.Refresh();
+            doItselfRefresh();
         }
         public Leaf(Point AbsoluteCenterPointLocation, int DivideAngle, int StartPart, int OnePartRelativePosition, float OneLengthPixels, bool Growing)
         {
@@ -350,6 +355,7 @@ namespace AlgoNature.Components
             Redraw += delegRdrw;
             itselfRefresh = true;
             //this.Refresh();
+            doItselfRefresh();
         }
         public Leaf(Point AbsoluteCenterPointLocation, int DivideAngle, int StartPart, int OnePartRelativePosition, float OneLengthPixels, 
             float zeroStateOneLengthPixels, float onePartGrowOneLengthPixels, TimeSpan timeToGrowOneStepAfter,
@@ -406,6 +412,7 @@ namespace AlgoNature.Components
             Redraw += delegRdrw;
             itselfRefresh = true;
             //this.Refresh();
+            doItselfRefresh();
         }
         public Leaf(Point PointFromWhereToGrowBranch, float BranchLngth, int DivideAngle, int StartPart, int OnePartRelativePosition, float OneLengthPixels,
             float zeroStateOneLengthPixels, float onePartGrowOneLengthPixels, TimeSpan timeToGrowOneStepAfter,
@@ -462,6 +469,7 @@ namespace AlgoNature.Components
             Redraw += delegRdrw;
             itselfRefresh = true;
             //this.Refresh();
+            doItselfRefresh();
         }
         public Leaf(Point PointFromWhereToGrowBranch, float BranchLngth, int DivideAngle, int StartPart, int OnePartRelativePosition, float OneLengthPixels,
             float zeroStateOneLengthPixels, float onePartGrowOneLengthPixels, TimeSpan timeToGrowOneStepAfter,
@@ -519,6 +527,7 @@ namespace AlgoNature.Components
             Redraw += delegRdrw;
             itselfRefresh = true;
             //this.Refresh();
+            doItselfRefresh();
         }
 
         public Leaf(Point PointFromWhereToGrowBranch, float BranchLngth, int DivideAngle, int StartPart, int OnePartRelativePosition, float OneLengthPixels,
@@ -577,6 +586,7 @@ namespace AlgoNature.Components
             Redraw += delegRdrw;
             itselfRefresh = true;
             //this.Refresh();
+            doItselfRefresh();
         }
         public Leaf(Point PointFromWhereToGrowBranch, float BranchLngth, int DivideAngle, int StartPart, int OnePartRelativePosition, float OneLengthPixels,
             float zeroStateOneLengthPixels, float onePartGrowOneLengthPixels, int VeinsFractalisation, TimeSpan timeToGrowOneStepAfter,
@@ -634,6 +644,7 @@ namespace AlgoNature.Components
             Redraw += delegRdrw;
             itselfRefresh = true;
             //this.Refresh();
+            doItselfRefresh();
         }
         #endregion
 
@@ -999,7 +1010,7 @@ namespace AlgoNature.Components
             {
                 //Point p = CurvePoints[i];
                 Point vect = p.Substract(getCenterPoint());
-                Point tensioned = getCenterPoint().Add((1 + (_oneLengthPixels * Tension)) * new Vector2(vect.X, vect.Y));
+                Point tensioned = getCenterPoint().Add((1 + (0.1F + Tension)) * new Vector2(vect.X, vect.Y));
                 if (tensioned.X < xMin) xMin = tensioned.X;
                 if (tensioned.X > xMax) xMax = tensioned.X;
                 if (tensioned.Y < yMin) yMin = tensioned.Y;
@@ -1054,7 +1065,7 @@ namespace AlgoNature.Components
                     /*if (loc >= 0)*/ _itselfResizedArr[2] = true;
                 }
             }
-            if (yMax - yMin > this.Height)
+            if (yMax - yMin> this.Height)
             {
                 if (!_itselfResizedArr[3])
                 {
