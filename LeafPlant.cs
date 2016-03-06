@@ -325,7 +325,8 @@ namespace AlgoNature.Components
             //Bitmap bmp = toAdd.Itself;
             //bmp.Dispose();
             panelNature.Controls.Add(toAdd);
-            panelNature.Controls[_alreadyGrownState - 1].BringToFront();
+            panelNature.Controls[panelNature.Controls.IndexOf(toAdd)].BringToFront();
+            //panelNature.Controls.SetChildIndex(panelNature.Controls[panelNature.Controls.Count - 1], 0);
             //panelNature.Controls[_alreadyGrownState - 1].BringToFront();
             //((Leaf)panelNature.Controls[0]).Location = ((Leaf)panelNature.Controls[0]).Location.Add(this.CenterPoint.Substract(((Leaf)panelNature.Controls[0]).CenterPointParentAbsoluteLocation));
             //this.ResumeLayout();

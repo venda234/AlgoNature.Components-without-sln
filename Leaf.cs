@@ -59,6 +59,7 @@ namespace AlgoNature.Components
             _drawToGraphics = true;
             Redraw += delegRdrw;
             itselfRefresh = true;
+            tempSize = this.Size;
             doItselfRefresh();
             ////IGrowable
             //_zeroStateOneLengthPixels = 0.5F;
@@ -129,6 +130,7 @@ namespace AlgoNature.Components
             Redraw += delegRdrw;
             itselfRefresh = true;
             //this.Refresh();
+            tempSize = this.Size;
             doItselfRefresh();
         }
         public Leaf(Point AbsoluteCenterPoint)
@@ -160,7 +162,7 @@ namespace AlgoNature.Components
             _centralVeinPixelThickness = 2;
             //_panelBitmap = new Bitmap(this.Width, this.Height);
             _userEditedCenterPoint = false;
-            this.Location = AbsoluteCenterPoint.Substract(_centerPoint);
+            changeLocation = AbsoluteCenterPoint.Substract(_centerPoint);
             //_locationBasedOnCenterPoint = true;
             _hasBranch = false;
             _branchLength = 0;
@@ -184,6 +186,7 @@ namespace AlgoNature.Components
             Redraw += delegRdrw;
             itselfRefresh = true;
             //this.Refresh();
+            tempSize = this.Size;
             doItselfRefresh();
         }
         public Leaf(Point AbsoluteCenterPoint, bool Growing)
@@ -215,7 +218,7 @@ namespace AlgoNature.Components
             _centralVeinPixelThickness = 2;
             //_panelBitmap = new Bitmap(this.Width, this.Height);
             _userEditedCenterPoint = false;
-            this.Location = AbsoluteCenterPoint.Substract(_centerPoint);
+            changeLocation = AbsoluteCenterPoint.Substract(_centerPoint);
             //_locationBasedOnCenterPoint = true;
             _hasBranch = false;
             _branchLength = 0;
@@ -242,6 +245,7 @@ namespace AlgoNature.Components
             Redraw += delegRdrw;
             itselfRefresh = true;
             //this.Refresh();
+            tempSize = this.Size;
             doItselfRefresh();
         }
         public Leaf(Point AbsoluteCenterPointLocation, int DivideAngle, int StartPart, int OnePartRelativePosition, float OneLengthPixels)
@@ -273,7 +277,7 @@ namespace AlgoNature.Components
             _centralVeinPixelThickness = 2;
             //_panelBitmap = new Bitmap(this.Width, this.Height);
             _userEditedCenterPoint = false;
-            this.Location = AbsoluteCenterPointLocation.Substract(_centerPoint);
+            changeLocation = AbsoluteCenterPointLocation.Substract(_centerPoint);
             //_locationBasedOnCenterPoint = true;
             _hasBranch = false;
             _branchLength = 0;
@@ -297,6 +301,7 @@ namespace AlgoNature.Components
             Redraw += delegRdrw;
             itselfRefresh = true;
             //this.Refresh();
+            tempSize = this.Size;
             doItselfRefresh();
         }
         public Leaf(Point AbsoluteCenterPointLocation, int DivideAngle, int StartPart, int OnePartRelativePosition, float OneLengthPixels, bool Growing)
@@ -328,7 +333,7 @@ namespace AlgoNature.Components
             _centralVeinPixelThickness = 2;
             //_panelBitmap = new Bitmap(this.Width, this.Height);
             _userEditedCenterPoint = false;
-            this.Location = AbsoluteCenterPointLocation.Substract(_centerPoint);
+            changeLocation = AbsoluteCenterPointLocation.Substract(_centerPoint);
             //_locationBasedOnCenterPoint = true;
             _hasBranch = false;
             _branchLength = 0;
@@ -355,6 +360,7 @@ namespace AlgoNature.Components
             Redraw += delegRdrw;
             itselfRefresh = true;
             //this.Refresh();
+            tempSize = this.Size;
             doItselfRefresh();
         }
         public Leaf(Point AbsoluteCenterPointLocation, int DivideAngle, int StartPart, int OnePartRelativePosition, float OneLengthPixels, 
@@ -388,7 +394,7 @@ namespace AlgoNature.Components
             _centralVeinPixelThickness = 2;
             //_panelBitmap = new Bitmap(this.Width, this.Height);
             _userEditedCenterPoint = false;
-            this.Location = AbsoluteCenterPointLocation.Substract(_centerPoint);
+            changeLocation = AbsoluteCenterPointLocation.Substract(_centerPoint);
             //_locationBasedOnCenterPoint = true;
             _hasBranch = false;
             _branchLength = 0;
@@ -412,6 +418,7 @@ namespace AlgoNature.Components
             Redraw += delegRdrw;
             itselfRefresh = true;
             //this.Refresh();
+            tempSize = this.Size;
             doItselfRefresh();
         }
         public Leaf(Point PointFromWhereToGrowBranch, float BranchLngth, int DivideAngle, int StartPart, int OnePartRelativePosition, float OneLengthPixels,
@@ -445,7 +452,7 @@ namespace AlgoNature.Components
             _centralVeinPixelThickness = 2;
             //_panelBitmap = new Bitmap(this.Width, this.Height);
             _userEditedCenterPoint = false;
-            this.Location = AbsoluteCenterPointLocation.Substract(_centerPoint);
+            changeLocation = AbsoluteCenterPointLocation.Substract(_centerPoint);
             //_locationBasedOnCenterPoint = true;
             _hasBranch = true;
             _branchLength = BranchLngth;
@@ -469,6 +476,7 @@ namespace AlgoNature.Components
             Redraw += delegRdrw;
             itselfRefresh = true;
             //this.Refresh();
+            tempSize = this.Size;
             doItselfRefresh();
         }
         public Leaf(Point PointFromWhereToGrowBranch, float BranchLngth, int DivideAngle, int StartPart, int OnePartRelativePosition, float OneLengthPixels,
@@ -502,7 +510,7 @@ namespace AlgoNature.Components
             _centralVeinPixelThickness = 2;
             //_panelBitmap = new Bitmap(this.Width, this.Height);
             _userEditedCenterPoint = false;
-            this.Location = AbsoluteCenterPointLocation.Substract(_centerPoint);
+            changeLocation = AbsoluteCenterPointLocation.Substract(_centerPoint);
             //_locationBasedOnCenterPoint = true;
             _hasBranch = true;
             _branchLength = BranchLngth;
@@ -527,6 +535,7 @@ namespace AlgoNature.Components
             Redraw += delegRdrw;
             itselfRefresh = true;
             //this.Refresh();
+            tempSize = this.Size;
             doItselfRefresh();
         }
 
@@ -561,7 +570,7 @@ namespace AlgoNature.Components
             _centralVeinPixelThickness = 2;
             //_panelBitmap = new Bitmap(this.Width, this.Height);
             _userEditedCenterPoint = false;
-            this.Location = AbsoluteCenterPointLocation.Substract(_centerPoint);
+            changeLocation = AbsoluteCenterPointLocation.Substract(_centerPoint);
             //_locationBasedOnCenterPoint = true;
             _hasBranch = true;
             _branchLength = BranchLngth;
@@ -586,6 +595,7 @@ namespace AlgoNature.Components
             Redraw += delegRdrw;
             itselfRefresh = true;
             //this.Refresh();
+            tempSize = this.Size;
             doItselfRefresh();
         }
         public Leaf(Point PointFromWhereToGrowBranch, float BranchLngth, int DivideAngle, int StartPart, int OnePartRelativePosition, float OneLengthPixels,
@@ -619,7 +629,7 @@ namespace AlgoNature.Components
             _centralVeinPixelThickness = 2;
             //_panelBitmap = new Bitmap(this.Width, this.Height);
             _userEditedCenterPoint = false;
-            this.Location = AbsoluteCenterPointLocation.Substract(_centerPoint);
+            changeLocation = AbsoluteCenterPointLocation.Substract(_centerPoint);
             //_locationBasedOnCenterPoint = true;
             _hasBranch = true;
             _branchLength = BranchLngth;
@@ -644,6 +654,7 @@ namespace AlgoNature.Components
             Redraw += delegRdrw;
             itselfRefresh = true;
             //this.Refresh();
+            tempSize = this.Size;
             doItselfRefresh();
         }
         #endregion
@@ -896,7 +907,10 @@ namespace AlgoNature.Components
                 Vector2 rotated = centerOrigVect.Rotated(_rotationAngleRad);
                 //_centerPoint.X = (int)rotated.X + (panelLeaf.Width / 2);
                 //_centerPoint.Y = (int)rotated.Y + (panelLeaf.Height / 2); 
-                CenterPoint = new Point((int)rotated.X + (panelNature.Width / 2), (int)rotated.Y + (panelNature.Height / 2));
+                if (!_userEditedCenterPoint)
+                {
+                    CenterPoint = new Point((int)rotated.X + (panelNature.Width / 2), (int)rotated.Y + (panelNature.Height / 2));
+                }
                 doRefresh();
             }
         }
@@ -957,6 +971,7 @@ namespace AlgoNature.Components
             set
             {
                 if (value >= 0) _branchLength = value;
+                else _branchLength = 0;
                 doRefresh();
             }
         }
@@ -1006,7 +1021,10 @@ namespace AlgoNature.Components
             int xMax = 0;
             int yMin = 0;
             int yMax = 0;
-            foreach (Point p in CurvePoints)
+            tempSize = this.Size;
+            tempLocation = this.Location;
+            Point[] curPts = CurvePoints.Union(new Point[1] { _centerPoint });
+            foreach (Point p in curPts)
             {
                 //Point p = CurvePoints[i];
                 Point vect = p.Substract(_centerPoint);
@@ -1020,11 +1038,16 @@ namespace AlgoNature.Components
             {
                 if (!_itselfResizedArr[0])
                 {
-                    int loc = this.Location.X + xMin;
-                    Point location = new Point(/*(loc < 0) ? 0 :*/ loc, this.Location.Y);
-                    Point subst = this.Location.Substract(location);
-                    this.Location = location;
-                    this.Size = panelNature.Size = this.Size + new Size(subst);
+                    int loc = (tempLocation.X + xMin >= 0) ? (tempLocation.X + xMin) : 0;
+                    Point location = new Point(/*(loc < 0) ? 0 :*/ loc, tempLocation.Y);
+                    Point subst = tempLocation.Substract(location);
+                    tempSize = tempSize + new Size(subst);
+                    tempLocation = location;
+                    if (!itselfRefresh)
+                    {
+                        tempLocation = location;
+                        tempSize = panelNature.Size = tempSize;
+                    }
                     _centerPoint = _centerPoint.Add(subst);
                     _userEditedCenterPoint = true;
                     for (int j = 0; j < CurvePoints.Length; j++)
@@ -1034,14 +1057,19 @@ namespace AlgoNature.Components
                     /*if (loc >= 0)*/ _itselfResizedArr[0] = true;
                 }
             }
-            if (xMax - xMin > this.Width)
+            if (xMax > this.Width)
             {
                 if (!_itselfResizedArr[1])
                 {
                     Size add = new Size(xMax - this.Width, 0);
-                    //Point subst = this.Location.Substract(location);
-                    //this.Location = location;
-                    this.Size = panelNature.Size = this.Size + add;
+                    //Point subst = tempLocation.Substract(location);
+                    //tempLocation = location;
+                    tempSize = tempSize + add;
+                    if (!itselfRefresh)
+                    {
+                        tempSize = panelNature.Size = tempSize;
+                    }
+                    //tempSize = panelNature.Size = tempSize + add;
                     //_centerPoint = _centerPoint.Add(subst);
                     _userEditedCenterPoint = true;
                     _itselfResizedArr[1] = true;
@@ -1051,11 +1079,16 @@ namespace AlgoNature.Components
             {
                 if (!_itselfResizedArr[2])
                 {
-                    int loc = this.Location.Y + yMin;
-                    Point location = new Point(this.Location.X, /*(loc < 0) ? 0 :*/ loc);
-                    Point subst = this.Location.Substract(location);
-                    this.Location = location;
-                    this.Size = panelNature.Size = this.Size + new Size(subst);
+                    int loc = (tempLocation.X + yMin >= 0) ? (tempLocation.X + yMin) : 0;
+                    Point location = new Point(tempLocation.X, /*(loc < 0) ? 0 :*/ loc);
+                    Point subst = tempLocation.Substract(location);
+                    tempSize = tempSize + new Size(subst);
+                    tempLocation = location;
+                    if (!itselfRefresh)
+                    {
+                        tempLocation = location;
+                        tempSize = panelNature.Size = tempSize;
+                    }
                     _centerPoint = _centerPoint.Add(subst);
                     _userEditedCenterPoint = true;
                     for (int j = 0; j < CurvePoints.Length; j++)
@@ -1065,21 +1098,29 @@ namespace AlgoNature.Components
                     /*if (loc >= 0)*/ _itselfResizedArr[2] = true;
                 }
             }
-            if (yMax - yMin> this.Height)
+            if (yMax > this.Height)
             {
                 if (!_itselfResizedArr[3])
                 {
                     Size add = new Size(0, yMax - this.Height);
-                    //Point subst = this.Location.Substract(location);
-                    //this.Location = location;
-                    this.Size = panelNature.Size = this.Size + add;
+                    //Point subst = tempLocation.Substract(location);
+                    //tempLocation = location;
+                    tempSize = tempSize + add;
+                    if (!itselfRefresh)
+                    {
+                        tempSize = panelNature.Size = tempSize;
+                    }
                     //_centerPoint = _centerPoint.Add(subst);
                     _userEditedCenterPoint = true;
                     _itselfResizedArr[3] = true;
                 }
             }
-            //_itself = new Bitmap(_itself, this.Size);
+            //_itself = new Bitmap(_itself, tempSize);
             if (!itselfRefresh) doItselfRefresh();
+            else
+            {
+
+            }
             //return Task.CompletedTask;
         }
 
@@ -1102,7 +1143,14 @@ namespace AlgoNature.Components
         private void Leaf_Paint(object sender, PaintEventArgs e)
         {
             secondPaint = false;
+            if (changeLocation != new Point(Int32.MaxValue, Int32.MaxValue))
+            {
+                this.Location = changeLocation;
+                changeLocation = new Point(Int32.MaxValue, Int32.MaxValue);
+            }
+            //panelLeaf_Paint(sender, e);
         }
+        private Point changeLocation = new Point(Int32.MaxValue, Int32.MaxValue);
 
         private bool secondPaint;
         private void doRefresh()
@@ -1124,6 +1172,7 @@ namespace AlgoNature.Components
                 if (Itself == null) doItselfRefresh();
                 //panelNature.SuspendLayout();
                 itselfRefresh = true;
+                doItselfRefresh();
                 if (_drawToGraphics)
                 {
                     Graphics g = e.Graphics;
@@ -1153,7 +1202,7 @@ namespace AlgoNature.Components
             if (!_userEditedCenterPoint)
             {
                 int xCenter = panelNature.Width / 2;
-                int yCenter = Convert.ToInt32(_oneLengthPixels * Math.Pow(Phi, _divideAngle - _onePartPossition - _beginingAnglePhase + 1));
+                int yCenter = Convert.ToInt32(_oneLengthPixels * (Math.Pow(Phi, _divideAngle - _onePartPossition - _beginingAnglePhase + 1) + _branchLength));
                 _centerPoint = new Point(xCenter, yCenter);
             }
 
@@ -1915,16 +1964,31 @@ namespace AlgoNature.Components
             }            
         }
         //private bool doingItselfRefresh = false;
+        Bitmap tempBitmap = new Bitmap(1, 1);
+        Size tempSize;
+        Point tempLocation;
         private void doItselfRefresh()
         {
-            _itself?.Dispose();
-            _itself = new Bitmap(panelNature.Width, panelNature.Height);
-            _itself.MakeTransparent();
+            if (tempLocation != null) this.Location = tempLocation;
+            if (tempSize != null) this.Size = tempSize;
+            
+            tempBitmap = new Bitmap(tempSize.Width, tempSize.Height);
+            tempBitmap.MakeTransparent();
+            //_itself?.Dispose();
+            
+            //_itself.MakeTransparent();
             _itselfResized = false;
             itselfRefresh = true;
-            doPaint(Graphics.FromImage(_itself));
+            doPaint(Graphics.FromImage(tempBitmap));
             _itselfResized = false;
             itselfRefresh = false;
+
+            this.Size = panelNature.Size = tempSize;
+            this.Location = tempLocation;
+
+            
+            
+            _itself = tempBitmap;
         }
 
         //public Panel PanelNature
