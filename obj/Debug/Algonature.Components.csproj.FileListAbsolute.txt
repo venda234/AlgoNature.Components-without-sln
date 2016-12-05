@@ -6,3 +6,11 @@ c:\users\václav\documents\visual studio 2015\Projects\Algonature.Components\Alg
 c:\users\václav\documents\visual studio 2015\Projects\Algonature.Components\Algonature.Components\obj\Debug\Algonature.Components.dll
 c:\users\václav\documents\visual studio 2015\Projects\Algonature.Components\Algonature.Components\obj\Debug\Algonature.Components.pdb
 C:\Users\Václav\Documents\Visual Studio 2015\Projects\AlgoNature.Components\Algonature.Components\obj\Debug\AlgoNature.Components.LeafPlant.resources
+C:\Users\Vacla\Documents\Visual Studio 2015\Projects\Algonature.Components\Algonature.Components\bin\Debug\Algonature.Components.dll
+C:\Users\Vacla\Documents\Visual Studio 2015\Projects\Algonature.Components\Algonature.Components\bin\Debug\Algonature.Components.pdb
+C:\Users\Vacla\Documents\Visual Studio 2015\Projects\Algonature.Components\Algonature.Components\obj\Debug\AlgoNature.Components.csprojResolveAssemblyReference.cache
+C:\Users\Vacla\Documents\Visual Studio 2015\Projects\Algonature.Components\Algonature.Components\obj\Debug\AlgoNature.Components.Leaf.resources
+C:\Users\Vacla\Documents\Visual Studio 2015\Projects\Algonature.Components\Algonature.Components\obj\Debug\AlgoNature.Components.LeafPlant.resources
+C:\Users\Vacla\Documents\Visual Studio 2015\Projects\Algonature.Components\Algonature.Components\obj\Debug\AlgoNature.Components.csproj.GenerateResource.Cache
+C:\Users\Vacla\Documents\Visual Studio 2015\Projects\Algonature.Components\Algonature.Components\obj\Debug\Algonature.Components.dll
+C:\Users\Vacla\Documents\Visual Studio 2015\Projects\Algonature.Components\Algonature.Components\obj\Debug\Algonature.Components.pdb

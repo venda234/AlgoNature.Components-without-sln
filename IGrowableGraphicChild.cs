@@ -10,7 +10,7 @@ namespace AlgoNature.Components
 {
     public delegate void RedrawEventHandler(object sender, EventArgs e);
 
-    public interface IGrowableGraphicChild
+    public interface IGrowableGraphicChild : IBitmapGraphicChild
     {
         // Growable
         float ZeroStateOneLengthPixels { get; set; }
@@ -20,7 +20,9 @@ namespace AlgoNature.Components
         void GrowPart(float part);
         //TimeSpan GrowOneStepTime { get; set; }
         TimeSpan CurrentTimeAfterLastGrowth { get; }
+        void StopGrowing();
         void Die();
+        void Revive();
         bool IsDead { get; set; }
         TimeSpan TimeToGrowOneStepAfter { get; set; }
         TimeSpan TimeToAverageDieAfter { get; set; }
@@ -32,8 +34,9 @@ namespace AlgoNature.Components
 
         // Graphic
         //Panel PanelNature { get; set; }
-        Bitmap Itself { get; }
-         
+        //Bitmap Itself { get; }
+        //Bitmap GetItselfBitmap();
+
         event RedrawEventHandler Redraw;
     }
 }

@@ -11,18 +11,21 @@ namespace AlgoNature.Components
     {
         public static int Sgn(int number)
         {
-            if (number != 0) return number > 0 ? 1 : -1;
-            else return 0;
+            //if (number != 0) return number > 0 ? 1 : -1;
+            //else return 0;
+            return number.CompareTo(0);
         }
         public static int Sgn(float number)
         {
-            if (number != 0) return number > 0 ? 1 : -1;
-            else return 0;
+            //if (number != 0) return number > 0 ? 1 : -1;
+            //else return 0;
+            return number.CompareTo(0);
         }
         public static int Sgn(double number)
         {
-            if (number != 0) return number > 0 ? 1 : -1;
-            else return 0;
+            //if (number != 0) return number > 0 ? 1 : -1;
+            //else return 0;
+            return number.CompareTo(0);
         }
 
         public static PointF SolveLinear2VarBasicEquationSet(float k_a, float k_b, float k_c, float k_d, float k_e, float k_f)

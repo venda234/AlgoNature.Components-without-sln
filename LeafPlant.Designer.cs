@@ -38,14 +38,19 @@
             this.panelNature.Size = new System.Drawing.Size(491, 455);
             this.panelNature.TabIndex = 0;
             this.panelNature.Paint += new System.Windows.Forms.PaintEventHandler(this.panelPlant_Paint);
+            this.panelNature.DoubleClick += new System.EventHandler(this.panelNature_DoubleClick);
+            this.panelNature.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.LeafPlant_MouseDoubleClick);
             // 
             // LeafPlant
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.panelNature);
+            this.DoubleBuffered = true;
             this.Name = "LeafPlant";
             this.Size = new System.Drawing.Size(491, 455);
+            this.DoubleClick += new System.EventHandler(this.panelNature_DoubleClick);
+            this.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.LeafPlant_MouseDoubleClick);
             this.ResumeLayout(false);
 
         }

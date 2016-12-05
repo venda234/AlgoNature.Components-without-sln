@@ -18,14 +18,39 @@ using static AlgoNature.Components.Geometry;
 
 namespace AlgoNature.Components
 {
-    public partial class LeafPlant: UserControl, IGrowableGraphicChild
+    public partial class LeafPlant: DockableUserControl<LeafPlant>, IResettableGraphicComponentForVisualisationDocking<LeafPlant>, IGrowableGraphicChild
     {
+        // IResettableGraphicComponentForVisualisationDocking Implementation
+        public override LeafPlant ResetGraphicalAppearanceForImmediateDocking()
+        {
+            panelNature.Controls.Clear();
+            try { Itself.Dispose(); } catch { }
+
+            panelNature.Size = this.Size;
+
+            _centerPoint = new Point(this.Width / 2, this.Height / 2);
+
+            _fylotaxisAngle = Convert.ToSingle(GoldenAngleRad);
+            _currentFylotaxisAngle = -_fylotaxisAngle;
+
+            _alreadyGrownState = 0;
+            _currentTimeAfterLastGrowth = new TimeSpan(0);
+            _isDead = false;
+            LifeTimer = new System.Windows.Forms.Timer();
+            LifeTimer.Interval = 500;
+            LifeTimer.Tick += new EventHandler(LifeTimerTickHandler);
+            LifeTimer.Start();
+
+            return this;
+        }
+
         #region Constructors
         public LeafPlant()
         {
             InitializeComponent();
+            //this.Size = new Size(900, 900);
             _centerPoint = new Point(this.Width / 2, this.Height / 2);
-            _oneLengthPixels = 1;
+            _oneLengthPixels = 0.2F;
             _drawToGraphics = true;
             //_childrenLeaves = new RedrawHandlingList<Leaf>();
             //_childrenLeaves.Redraw += RedrawPanel;
@@ -34,10 +59,13 @@ namespace AlgoNature.Components
             //    new TimeSpan(0, 0, 5), new TimeSpan(0, 10, 0), 0.2, 0, true);
             //this.Controls.Add(_leafTemplate);
 
+            _leafTemplate = new Leaf(_centerPoint, 1, 10, 0, 1, _oneLengthPixels, _oneLengthPixels, _oneLengthPixels, 1,
+                new TimeSpan(0, 0, 2), new TimeSpan(0, 5, 0), 0.2, _currentFylotaxisAngle, false, false, false, false);
+
             _fylotaxisAngle = Convert.ToSingle(GoldenAngleRad);
             _currentFylotaxisAngle = -_fylotaxisAngle;
 
-            GrowOneStep();
+            //GrowOneStep();
 
             // IGrowable
             _zeroStateOneLengthPixels = 0.05F;
@@ -45,7 +73,7 @@ namespace AlgoNature.Components
             _alreadyGrownState = 0;
             _currentTimeAfterLastGrowth = new TimeSpan(0);
             _isDead = false;
-            TimeToGrowOneStepAfter = new TimeSpan(0, 0, 10);
+            TimeToGrowOneStepAfter = new TimeSpan(0, 0, 2);
             TimeToAverageDieAfter = new TimeSpan(0, 5, 0);
             DeathTimeSpanFromAveragePart = 0.1;
             LifeTimer = new System.Windows.Forms.Timer();
@@ -138,10 +166,10 @@ namespace AlgoNature.Components
             }
         }
 
-        private void RedrawPanel(object sender, EventArgs e)
+        /*private void RedrawPanel(object sender, EventArgs e)
         {
             panelNature.Refresh();
-        }
+        }*/
 
         private async void panelPlant_Paint(object sender, PaintEventArgs e)
         {
@@ -167,9 +195,9 @@ namespace AlgoNature.Components
             bmp.MakeTransparent();
             Graphics g = Graphics.FromImage(bmp);
 
-            foreach (IGrowableGraphicChild child in panelNature.Controls)
+            for (int i = 0; i < panelNature.Controls.Count; i++)
             {
-                g.DrawImage(new Bitmap(child.Itself), child.Location);
+                g.DrawImage(new Bitmap(((IGrowableGraphicChild)panelNature.Controls[i]).Itself), ((IGrowableGraphicChild)panelNature.Controls[i]).Location);
             }
             //bitmap = ((IGrowableGraphicChild)panelNature.Controls[0]).Itself; 
             // Pravděpodobně se předává pointer na bitmapu místo statické bitmapy
@@ -246,12 +274,23 @@ namespace AlgoNature.Components
         {
             get { return _isDead; }
             set
-            {
-                _isDead = value;
-                if (_isDead)
+            {                
+                if (!_isDead && value)
                 {
                     LifeTimer.Stop();
+                    for (int i = 0; i < panelNature.Controls.Count; i++)
+                    {
+                        if (panelNature.Controls[i] is Leaf)
+                        {
+                            ((Leaf)panelNature.Controls[i]).Die();
+                        }
+                    }
                 }
+                if (_isDead && !value)
+                {
+                    LifeTimer.Start();
+                }
+                _isDead = value;
             }
         }
 
@@ -305,10 +344,30 @@ namespace AlgoNature.Components
                 panelNature.Refresh();
             }
         }
+
+        public void StopGrowing()
+        {
+            LifeTimer.Stop();
+            foreach (IGrowableGraphicChild child in panelNature.Controls)
+            {
+                child.StopGrowing();
+            }
+        }
         
         public void Die()
         {
+            IsDead = true;
             throw new NotImplementedException();
+        }
+
+        public void Revive()
+        {
+            IsDead = false;
+            LifeTimer.Start();
+            for (int i = 0; i < panelNature.Controls.Count; i++)
+            {
+                if (panelNature.Controls[i] is Leaf) ((Leaf)panelNature.Controls[i]).Revive();
+            }
         }
 
         public void GrowOneStep()
@@ -319,13 +378,36 @@ namespace AlgoNature.Components
             //    new TimeSpan(0, 0, 30), new TimeSpan(0, 10, 0), 0.1, _currentFylotaxisAngle);
             //toAdd.RotationAngleRad = _currentFylotaxisAngle;
             //this.SuspendLayout();
-            Leaf toAdd = new Leaf(_centerPoint, 1, 10, 0, 1, _oneLengthPixels, _oneLengthPixels, _oneLengthPixels, 1,
-                new TimeSpan(0, 0, 10), new TimeSpan(0, 10, 0), 0.2, _currentFylotaxisAngle, false);
+            
+            Leaf t = _leafTemplate;
+            Leaf toAdd = new Leaf(_centerPoint,
+                t.BranchLength,
+                t.DivideAngle,
+                t.BeginingAnglePhase,
+                t.OnePartPossitinon,
+                t.OneLengthPixels,
+                t.ZeroStateOneLengthPixels,
+                t.OnePartGrowOneLengthPixels,
+                t.VeinsFractalisation,
+                t.TimeToGrowOneStepAfter,
+                t.TimeToAverageDieAfter,
+                t.DeathTimeSpanFromAveragePart,
+                _currentFylotaxisAngle,
+                t.InvertedLeaf,
+                t.InvertedBegining, false, true)
+            {
+                InvertedCurving = t.InvertedCurving,
+                InvertedCurvingCenterAngle = t.InvertedCurvingCenterAngle,
+                InvertedCurvingSpan = t.InvertedCurvingSpan,
+                ContinueAfterInvertedCurving = t.ContinueAfterInvertedCurving
+            };
+            
+            //toAdd.Size = new Size(900, 900);
             //Panel panel = new Panel() { Size = this.Size, BackColor = Color.Transparent };
             //Bitmap bmp = toAdd.Itself;
             //bmp.Dispose();
             panelNature.Controls.Add(toAdd);
-            panelNature.Controls[panelNature.Controls.IndexOf(toAdd)].BringToFront();
+            //panelNature.Controls[panelNature.Controls.IndexOf(toAdd)].BringToFront();
             //panelNature.Controls.SetChildIndex(panelNature.Controls[panelNature.Controls.Count - 1], 0);
             //panelNature.Controls[_alreadyGrownState - 1].BringToFront();
             //((Leaf)panelNature.Controls[0]).Location = ((Leaf)panelNature.Controls[0]).Location.Add(this.CenterPoint.Substract(((Leaf)panelNature.Controls[0]).CenterPointParentAbsoluteLocation));
@@ -349,9 +431,62 @@ namespace AlgoNature.Components
 
         public Bitmap Itself
         {
-            get;
-            private set;
+            get
+            {
+                int controlsCount = panelNature.Controls.Count;
+                // Assuming temporary bitmaps for preventing redrawing while composing the result
+                Bitmap[] bmps = new Bitmap[controlsCount];
+                Point[] locations = new Point[controlsCount];
+                Point loc;
+                for (int i = 0; i < controlsCount; i++)
+                {
+                    bmps[i] = (Bitmap)((IGrowableGraphicChild)panelNature.Controls[i]).Itself.Clone();
+                    loc = ((IGrowableGraphicChild)panelNature.Controls[i]).Location;
+                    locations[i] = new Point(loc.X, loc.Y);
+                }
+
+                // TODO ošetřit řádné vykreslení (StopGrow() -> Revive())
+                int minX = 0, minY = 0, maxX = panelNature.Width, maxY = panelNature.Height;
+                Point location, maxCorner;
+                Size size;
+                for (int i = 0; i < controlsCount; i++)
+                {
+                    location = panelNature.Controls[i].Location;
+                    size = panelNature.Controls[i].Size;
+                    maxCorner = location.Add(new Point(size.Width - 1, size.Height - 1));
+
+                    if (location.X < minX) minX = location.X;
+                    if (location.Y < minY) minY = location.Y;
+                    if (maxCorner.X > maxX) maxX = maxCorner.X;
+                    if (maxCorner.Y > maxY) maxY = maxCorner.Y;
+                }
+                Size minShift = new Size(-minX, -minY);
+                Size resultSize = new Size(maxX + 1, maxY + 1) + minShift;
+
+                Bitmap res = new Bitmap(resultSize.Width, resultSize.Height);
+                //panelNature.DrawToBitmap(res, new Rectangle(new Point(0, 0), panelNature.Size));
+                Graphics g = Graphics.FromImage(res);
+                for (int i = 0; i < controlsCount; i++)
+                {
+                    g.DrawImage(bmps[i], locations[i] + minShift);
+                }
+                return res;                    
+            }
+        }
+        public Bitmap GetItselfBitmap()
+        {
+            return Itself;
         }
         #endregion
+
+        private void panelNature_DoubleClick(object sender, EventArgs e)
+        {
+            IsDead = !IsDead;
+        }
+
+        private void LeafPlant_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            IsDead = !IsDead;
+        }
     }
 }

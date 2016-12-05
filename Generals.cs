@@ -9,10 +9,11 @@ using System.Drawing.Drawing2D;
 
 namespace AlgoNature.Components
 {
-    internal static class Generals
-    {
+    internal static partial class Generals
+    {    
         public const double Phi = 1.618033988749894848204586834365638117720309179805762862135448622705260462818902449707207204189391137484754088075386891752;
-        public const double GoldenAngleRad = 2.39996323;        
+        public const double GoldenAngleRad = 2.3999632297286533222315555066336;
+        public const double LNPhi = 0.48121182505960344749775891342437;        
 
         public static long UniqueID(this object obj)
         {
@@ -51,6 +52,8 @@ namespace AlgoNature.Components
             }
             return res;
         }
+
+        //public static Line
 
         public static Color CombineColors(params Color[] aColors)
         {
@@ -94,12 +97,51 @@ namespace AlgoNature.Components
         public static Color CombineWith(this Color color, Color other, float othersIntensity) 
             => CombineColors(new Color[] { color, other }, new float[] { 1, othersIntensity });
 
+        public static Color DecombineTwoColors(Color resultedColor, Color combinationColor, float intensityOrig, float intensityComb)
+        {
+            int a = (int)((2 * resultedColor.A - combinationColor.A * intensityComb) / intensityOrig);
+            if (a < 0) a = 0;
+            int r = (int)((2 * resultedColor.R - combinationColor.R * intensityComb) / intensityOrig);
+            if (r < 0) r = 0;
+            int g = (int)((2 * resultedColor.G - combinationColor.G * intensityComb) / intensityOrig);
+            if (g < 0) g = 0;
+            int b = (int)((2 * resultedColor.B - combinationColor.B * intensityComb) / intensityOrig);
+            if (b < 0) b = 0;
+            // Ošetřit přesně proti záporným hodnotám
+            return Color.FromArgb(a, r, g, b);
+        }
+        public static Color DecombineWith(this Color resColor, Color colorCombinedWith, float othersIntensity)
+            => DecombineTwoColors(resColor, colorCombinedWith, othersIntensity, 1);
+
         //public Bitmap ToBitmap(this Graphics graphics, int width, int height)
         //{
         //    Bitmap bmp = new Bitmap(width, height, graphics);
         //    Image img = Image.
-            
+
         //}
-        
+
+
+        ///// <summary>
+        ///// Converts float* to float, because there's no definition in C#.
+        ///// </summary>
+        ///// <param name="num">float* to be converted to float</param>
+        ///// <returns></returns>
+        //public static float ToFloat(this float num) => num;
+
+        ///// <summary>
+        ///// Converts double* to double, because there's no definition in C#.
+        ///// </summary>
+        ///// <param name="num">double* to be converted to float</param>
+        ///// <returns></returns>
+        //public static double ToDouble(this double num) => num;
+
+        public static bool Implies(this bool a, bool b)
+        {
+            if (a && !b) return false;
+            else return true;
+        }
+
+        public static Point ToPoint(this Vector2 vect)
+            => new Point((int)vect.X, (int)vect.Y);
     }
 }
